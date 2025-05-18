@@ -12,7 +12,7 @@ export function TerminalScreen({
   children,
   className,
   withHeader = false,
-  title = "ROBCO INDUSTRIES UNIFIED PODCAST TERMINAL"
+  title = "ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM"
 }: TerminalScreenProps) {
   return (
     <div className={cn("terminal-screen", className)}>

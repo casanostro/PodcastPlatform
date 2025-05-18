@@ -13,13 +13,10 @@ export function Footer() {
           
           <div className="flex space-x-6 mb-4 md:mb-0">
             <Link href="/" className="text-terminal-text hover:text-terminal-green transition-colors">
-              Home
-            </Link>
-            <Link href="/marketplace" className="text-terminal-text hover:text-terminal-green transition-colors">
-              Marketplace
+              Accueil
             </Link>
             <Link href="/projects" className="text-terminal-text hover:text-terminal-green transition-colors">
-              Projects
+              Projets
             </Link>
             <Link href="/contact" className="text-terminal-text hover:text-terminal-green transition-colors">
               Contact

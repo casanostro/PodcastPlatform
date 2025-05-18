@@ -12,17 +12,12 @@ export function MainNav() {
   const routes = [
     {
       href: "/",
-      label: "Home",
+      label: "Accueil",
       active: location === "/",
     },
     {
-      href: "/marketplace",
-      label: "Marketplace",
-      active: location === "/marketplace",
-    },
-    {
       href: "/projects",
-      label: "Projects",
+      label: "Projets",
       active: location === "/projects" || location.startsWith("/projects/"),
     },
     {

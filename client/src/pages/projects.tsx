@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Project } from "@shared/schema";
 import { ProjectCard } from "@/components/project-card";
 import { TerminalScreen } from "@/components/terminal-screen";
-import { CategoryFilter } from "@/components/category-filter";
 import { TagBadge } from "@/components/tag-badge";
 import { getAllTags } from "@/lib/utils";
 
@@ -28,8 +27,8 @@ export default function Projects() {
     <section id="projects" className="py-16 bg-terminal-bg">
       <div className="container mx-auto px-4">
         <div className="mb-12 text-center">
-          <h1 className="text-3xl font-mono font-bold text-terminal-green mb-2">PORTFOLIO PROJECTS</h1>
-          <p className="text-terminal-text/80 max-w-2xl mx-auto">Browse our featured projects and case studies.</p>
+          <h1 className="text-3xl font-mono font-bold text-terminal-green mb-2">EXPÉRIENCE PROFESSIONNELLE</h1>
+          <p className="text-terminal-text/80 max-w-2xl mx-auto">Découvrez mes projets professionnels et mes réalisations.</p>
         </div>
         
         {/* Filters */}
@@ -37,7 +36,7 @@ export default function Projects() {
           <div className="mb-8">
             <div className="flex flex-wrap gap-3 justify-center">
               <TagBadge 
-                tag="All Projects" 
+                tag="Tous les projets" 
                 onClick={() => setSelectedTag("all")} 
                 selected={selectedTag === "all"}
                 className="px-4 py-2 rounded-md bg-terminal-dark"
@@ -80,7 +79,7 @@ export default function Projects() {
           ) : (
             <div className="col-span-2 text-center py-10">
               <p className="text-terminal-text/80 text-lg">
-                No projects found with the selected tag. Try another filter.
+                Aucun projet trouvé avec ce tag. Essayez un autre filtre.
               </p>
             </div>
           )}

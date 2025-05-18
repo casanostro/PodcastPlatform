@@ -2,7 +2,6 @@ import { Switch, Route } from "wouter";
 import { useEffect } from "react";
 import { MainNav } from "@/components/main-nav";
 import Home from "@/pages/home";
-import Marketplace from "@/pages/marketplace";
 import Projects from "@/pages/projects";
 import ProjectDetail from "@/pages/project-detail";
 import Contact from "@/pages/contact";
@@ -24,7 +23,6 @@ function App() {
       <main className="flex-grow">
         <Switch>
           <Route path="/" component={Home} />
-          <Route path="/marketplace" component={Marketplace} />
           <Route path="/projects" component={Projects} />
           <Route path="/projects/:slug" component={ProjectDetail} />
           <Route path="/contact" component={Contact} />

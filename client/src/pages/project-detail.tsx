@@ -27,7 +27,7 @@ export default function ProjectDetail() {
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <Link href="/projects" className="inline-flex items-center text-terminal-green hover:text-terminal-green/80 mb-4">
-              <ArrowLeft className="mr-1 h-4 w-4" /> Back to projects
+              <ArrowLeft className="mr-1 h-4 w-4" /> Retour aux projets
             </Link>
             <TerminalScreen className="p-6 animate-pulse">
               <div className="flex justify-between items-start mb-6">
@@ -60,12 +60,12 @@ export default function ProjectDetail() {
       <div className="container mx-auto px-4">
         <div className="mb-8">
           <Link href="/projects" className="inline-flex items-center text-terminal-green hover:text-terminal-green/80 mb-4">
-            <ArrowLeft className="mr-1 h-4 w-4" /> Back to projects
+            <ArrowLeft className="mr-1 h-4 w-4" /> Retour aux projets
           </Link>
           <TerminalScreen className="p-6">
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-3xl font-mono font-semibold text-terminal-green">{project.title}</h2>
-              <span className={`bg-${project.badgeColor}/20 text-${project.badgeColor} px-3 py-1 rounded font-mono`}>
+              <span className={`px-3 py-1 rounded font-mono ${project.badgeColor === "pip-green" ? "bg-pip-green/20 text-pip-green" : "bg-pip-amber/20 text-pip-amber"}`}>
                 {project.badge}
               </span>
             </div>
@@ -79,28 +79,28 @@ export default function ProjectDetail() {
             </div>
             
             <div className="mb-6">
-              <h3 className="text-xl font-mono text-terminal-green mb-3">Project Description</h3>
+              <h3 className="text-xl font-mono text-terminal-green mb-3">Description du poste</h3>
               <p className="text-terminal-text/90 mb-4">
                 {project.description}
               </p>
               <p className="text-terminal-text/90 mb-4">
-                This project involved implementing cutting-edge solutions with a focus on efficiency, data-driven decision making, and cross-departmental collaboration.
+                Ce projet a impliqué la mise en œuvre de solutions innovantes axées sur l'efficacité opérationnelle, la prise de décision basée sur les données et la collaboration interdépartementale.
               </p>
             </div>
             
             <div className="mb-6">
-              <h3 className="text-xl font-mono text-terminal-green mb-3">Key Achievements</h3>
+              <h3 className="text-xl font-mono text-terminal-green mb-3">Réalisations clés</h3>
               <ul className="list-disc list-inside space-y-2 text-terminal-text/90">
-                <li>Improved workflow efficiency by over 30% through strategic process optimization</li>
-                <li>Developed comprehensive data analytics solutions for real-time performance monitoring</li>
-                <li>Implemented scalable infrastructure for future growth and expansion</li>
-                <li>Created standardized reporting frameworks adopted across multiple departments</li>
-                <li>Reduced operational costs while increasing overall productivity</li>
+                <li>Amélioration de l'efficacité du flux de travail de plus de 30% grâce à l'optimisation stratégique des processus</li>
+                <li>Développement de solutions d'analyse de données complètes pour le suivi des performances en temps réel</li>
+                <li>Mise en place d'une infrastructure évolutive pour la croissance et l'expansion futures</li>
+                <li>Création de cadres de reporting standardisés adoptés par plusieurs départements</li>
+                <li>Réduction des coûts opérationnels tout en augmentant la productivité globale</li>
               </ul>
             </div>
             
             <div className="mb-6">
-              <h3 className="text-xl font-mono text-terminal-green mb-3">Technologies & Skills</h3>
+              <h3 className="text-xl font-mono text-terminal-green mb-3">Technologies & Compétences</h3>
               <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag, index) => (
                   <TagBadge 

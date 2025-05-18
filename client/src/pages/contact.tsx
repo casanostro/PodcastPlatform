@@ -18,10 +18,10 @@ import {
 import { useToast } from "@/hooks/use-toast";
 
 const contactFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  subject: z.string().min(3, { message: "Subject must be at least 3 characters." }),
-  message: z.string().min(10, { message: "Message must be at least 10 characters." }),
+  name: z.string().min(2, { message: "Le nom doit comporter au moins 2 caractères." }),
+  email: z.string().email({ message: "Veuillez entrer une adresse email valide." }),
+  subject: z.string().min(3, { message: "Le sujet doit comporter au moins 3 caractères." }),
+  message: z.string().min(10, { message: "Le message doit comporter au moins 10 caractères." }),
 });
 
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -45,15 +45,15 @@ export default function Contact() {
     try {
       await apiRequest("POST", "/api/contact", data);
       toast({
-        title: "Message sent successfully!",
-        description: "Thank you for contacting us. We'll get back to you soon.",
+        title: "Message envoyé avec succès !",
+        description: "Merci de m'avoir contacté. Je vous répondrai dans les plus brefs délais.",
         variant: "default",
       });
       form.reset();
     } catch (error) {
       toast({
-        title: "Error sending message",
-        description: "There was a problem sending your message. Please try again later.",
+        title: "Erreur lors de l'envoi du message",
+        description: "Un problème est survenu lors de l'envoi de votre message. Veuillez réessayer plus tard.",
         variant: "destructive",
       });
     } finally {
@@ -66,8 +66,8 @@ export default function Contact() {
       <div className="container mx-auto px-4">
         <TerminalScreen className="max-w-3xl mx-auto p-6">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-mono font-bold text-terminal-green mb-2">CONTACT TERMINAL</h1>
-            <p className="text-terminal-text/80">Have questions or interested in our services? Reach out!</p>
+            <h1 className="text-3xl font-mono font-bold text-terminal-green mb-2">TERMINAL DE CONTACT</h1>
+            <p className="text-terminal-text/80">Des questions ou intéressé(e) par mes services ? Contactez-moi !</p>
           </div>
           
           <Form {...form}>
@@ -78,12 +78,12 @@ export default function Contact() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>NAME</FormLabel>
+                      <FormLabel>NOM</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
                           className="w-full p-3 bg-terminal-dark border border-terminal-green/30 rounded-md focus:border-terminal-green focus:ring focus:ring-terminal-green/20 focus:outline-none text-terminal-text"
-                          placeholder="Enter your name"
+                          placeholder="Entrez votre nom"
                           disabled={isSubmitting}
                         />
                       </FormControl>
@@ -102,7 +102,7 @@ export default function Contact() {
                           {...field}
                           type="email"
                           className="w-full p-3 bg-terminal-dark border border-terminal-green/30 rounded-md focus:border-terminal-green focus:ring focus:ring-terminal-green/20 focus:outline-none text-terminal-text"
-                          placeholder="Enter your email"
+                          placeholder="Entrez votre email"
                           disabled={isSubmitting}
                         />
                       </FormControl>
@@ -117,12 +117,12 @@ export default function Contact() {
                 name="subject"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>SUBJECT</FormLabel>
+                    <FormLabel>SUJET</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         className="w-full p-3 bg-terminal-dark border border-terminal-green/30 rounded-md focus:border-terminal-green focus:ring focus:ring-terminal-green/20 focus:outline-none text-terminal-text"
-                        placeholder="Enter subject"
+                        placeholder="Entrez le sujet"
                         disabled={isSubmitting}
                       />
                     </FormControl>
@@ -142,7 +142,7 @@ export default function Contact() {
                         {...field}
                         rows={5}
                         className="w-full p-3 bg-terminal-dark border border-terminal-green/30 rounded-md focus:border-terminal-green focus:ring focus:ring-terminal-green/20 focus:outline-none text-terminal-text resize-none"
-                        placeholder="Enter your message"
+                        placeholder="Entrez votre message"
                         disabled={isSubmitting}
                       />
                     </FormControl>
@@ -157,7 +157,7 @@ export default function Contact() {
                   className="px-6 py-3 bg-terminal-green text-terminal-dark font-medium rounded-md hover:bg-terminal-green/90 transition-colors"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
+                  {isSubmitting ? "ENVOI EN COURS..." : "ENVOYER MESSAGE"}
                 </Button>
               </div>
             </form>
