@@ -4,13 +4,13 @@
 
 @layer base {
   :root {
-    /* Terminal Raw Colors - Fallout 3 authentic green */
-    --terminal-green: #00ff00;
-    --terminal-header: #00ff00;
-    --terminal-text: #00ff00;
-    --terminal-dark: #001200;
-    --terminal-bg: #001800;
-    --pip-green: #00cc00;
+    /* Terminal Raw Colors - Fallout 3 authentic blue-green */
+    --terminal-green: #2ec4b6;
+    --terminal-header: #26a69a;
+    --terminal-text: #4feadc;
+    --terminal-dark: #001b17;
+    --terminal-bg: #002622;
+    --pip-green: #20d6c7;
     --pip-amber: #ffaa00;
     
     /* Tailwind HSL conversion */
