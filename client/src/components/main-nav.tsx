@@ -4,13 +4,7 @@ import { Link, useLocation } from "wouter";
 export function MainNav() {
   const [location] = useLocation();
 
-  // ASCII art pour la supply chain - un convoyeur
-  const supplyChainAscii = `
-     __n__n__    ___________    __n__n__    
-____/       \\__/           \\__/       \\____
-|                SUPPLY CHAIN                |
-|___/\\________/\\___________/\\________/\\_____|
-  `;
+  // Plus d'ASCII art
 
   const routes = [
     {
@@ -57,12 +51,7 @@ ____/       \\__/           \\__/       \\____
           </div>
         </div>
         
-        {/* ASCII Art Supply Chain Banner */}
-        <div className="terminal-ascii-banner overflow-hidden py-1 border-y border-terminal-green/30 my-2">
-          <pre className="text-terminal-green/70 text-xs animate-slide-left whitespace-pre overflow-hidden">
-            {supplyChainAscii}
-          </pre>
-        </div>
+        {/* Pas d'ASCII art */}
         
         {/* Terminal Navigation Menu */}
         <nav className="flex mt-3">

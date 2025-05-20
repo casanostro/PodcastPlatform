@@ -64,13 +64,7 @@ export default function Home() {
     ""
   ];
 
-  // ASCII art pour la supply chain - un convoyeur
-  const supplyChainAscii = `
-       __n__n__    ___________    __n__n__    
-  ____/       \\__/           \\__/       \\____
- |                SUPPLY CHAIN                |
- |___/\\________/\\___________/\\________/\\_____|
-  `;
+  // Pas d'ASCII art
 
   // Effet de frappe pour la séquence de démarrage
   useEffect(() => {
@@ -191,7 +185,7 @@ export default function Home() {
     }
     else if (command === 'ascii') {
       setTerminalResponses(prev => 
-        prev + "\n" + supplyChainAscii + "\n"
+        prev + "\nFonctionnalité non disponible\n"
       );
     }
     else if (command === '') {
@@ -250,12 +244,7 @@ export default function Home() {
 
   return (
     <div className="terminal-lines p-6">
-      {/* ASCII Art Supply Chain */}
-      <div className="terminal-ascii-banner mb-4 overflow-hidden">
-        <pre className="text-terminal-green/75 animate-slide-left whitespace-pre overflow-hidden">
-          {supplyChainAscii}
-        </pre>
-      </div>
+      {/* Pas d'ASCII Art */}
 
       {/* Terminal interactif */}
       <div className="terminal-screen mb-8 crt-glow">
@@ -296,51 +285,11 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Menu de navigation rapide */}
-      <div className="mb-8">
-        <div className="border-b-2 border-terminal-green mb-6">
-          <h2 className="text-2xl font-terminal text-terminal-green mb-2">ACCÈS RAPIDE</h2>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Link href="/projects" className="terminal-screen p-4 hover:border-terminal-green">
-            <div className="cli-prompt text-terminal-accent">[EXP] EXPÉRIENCE</div>
-            <div className="text-sm mt-2">Consulter mon parcours professionnel et mes compétences</div>
-          </Link>
-          
-          <Link href="/portfolio" className="terminal-screen p-4 hover:border-terminal-green">
-            <div className="cli-prompt text-terminal-accent">[PRJ] PROJETS</div>
-            <div className="text-sm mt-2">Découvrir mes réalisations et cas d'études</div>
-          </Link>
-          
-          <Link href="/blog" className="terminal-screen p-4 hover:border-terminal-green">
-            <div className="cli-prompt text-terminal-accent">[LOG] JOURNAL</div>
-            <div className="text-sm mt-2">Lire mes notes de terrain et réflexions</div>
-          </Link>
-          
-          <Link href="/contact" className="terminal-screen p-4 hover:border-terminal-green">
-            <div className="cli-prompt text-terminal-accent">[COM] CONTACT</div>
-            <div className="text-sm mt-2">Établir une communication directe</div>
-          </Link>
-        </div>
-      </div>
-      
-      {/* Dernière expérience */}
-      <div className="mb-8">
-        <div className="border-b-2 border-terminal-green mb-6">
-          <h2 className="text-2xl font-terminal text-terminal-green mb-2">DERNIÈRE EXPÉRIENCE</h2>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {projects?.slice(0, 2).map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
-        
-        <div className="mt-6 cli-prompt">
-          <Link href="/projects" className="text-terminal-green hover:text-terminal-accent">
-            AFFICHER TOUTES LES ENTRÉES (UTILISEZ LA COMMANDE 'CV' POUR PLUS DE DÉTAILS)
-          </Link>
+      {/* Suggestions de commandes */}
+      <div className="terminal-screen p-4 mt-6">
+        <div className="text-sm">
+          <div className="cli-prompt mb-1">UTILISEZ LES COMMANDES HELP, CV, BLOG, PROJECTS OU CONTACT</div>
+          <div className="cli-prompt mb-1">POUR NAVIGUER DANS LES DIFFÉRENTES SECTIONS DU TERMINAL</div>
         </div>
       </div>
       
