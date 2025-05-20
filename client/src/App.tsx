@@ -4,6 +4,8 @@ import { MainNav } from "@/components/main-nav";
 import Home from "@/pages/home";
 import Projects from "@/pages/projects";
 import ProjectDetail from "@/pages/project-detail";
+import Portfolio from "@/pages/portfolio";
+import Blog from "@/pages/blog";
 import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
 import { Footer } from "@/components/footer";
@@ -172,6 +174,8 @@ function App() {
               <Route path="/" component={Home} />
               <Route path="/projects" component={Projects} />
               <Route path="/projects/:slug" component={ProjectDetail} />
+              <Route path="/portfolio" component={Portfolio} />
+              <Route path="/blog" component={Blog} />
               <Route path="/contact" component={Contact} />
               <Route component={NotFound} />
             </Switch>
