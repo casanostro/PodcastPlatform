@@ -1,72 +1,60 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Logo } from "./logo";
-import { Menu } from "lucide-react";
-import { Button } from "./ui/button";
-import { MobileNav } from "./mobile-nav";
 
 export function MainNav() {
-  const [isOpen, setIsOpen] = useState(false);
   const [location] = useLocation();
 
   const routes = [
     {
       href: "/",
-      label: "Accueil",
+      label: "ACCUEIL",
       active: location === "/",
+      cmd: "MAIN"
     },
     {
       href: "/projects",
-      label: "Projets",
+      label: "EXPÉRIENCE",
       active: location === "/projects" || location.startsWith("/projects/"),
+      cmd: "EXP"
     },
     {
       href: "/contact",
-      label: "Contact",
+      label: "CONTACT",
       active: location === "/contact",
+      cmd: "COM"
     },
   ];
 
   return (
-    <header className="sticky top-0 z-10 bg-terminal-dark border-b border-terminal-green/30">
-      <div className="container mx-auto px-4 py-3">
+    <header className="sticky top-0 z-10 bg-terminal-bg border-b-2 border-terminal-green">
+      <div className="robco-header">
         <div className="flex items-center justify-between">
-          <Logo />
-          
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-6">
-            {routes.map((route) => (
-              <Link 
-                key={route.href} 
-                href={route.href}
-                className={`text-terminal-text hover:text-terminal-green font-medium transition-colors ${
-                  route.active ? "text-terminal-green" : ""
-                }`}
-              >
-                {route.label}
-              </Link>
-            ))}
-          </nav>
-          
-          {/* Mobile Menu Button */}
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            className="md:hidden text-terminal-green"
-            onClick={() => setIsOpen(true)}
-          >
-            <Menu className="h-6 w-6" />
-            <span className="sr-only">Toggle menu</span>
-          </Button>
+          <div className="robco-header-title">
+            ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM
+          </div>
+          <div className="font-mono text-xs">
+            COPYRIGHT 2075-2077 ROBCO INDUSTRIES
+          </div>
         </div>
+        
+        {/* Terminal Navigation Menu */}
+        <nav className="flex mt-4">
+          <ul className="robco-menu flex">
+            {routes.map((route) => (
+              <li 
+                key={route.href}
+                className={`robco-menu-item mx-2 ${route.active ? 'active' : ''}`}
+              >
+                <Link 
+                  href={route.href}
+                >
+                  <span className="text-terminal-accent">{route.cmd}</span>:{route.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
-
-      {/* Mobile Navigation */}
-      <MobileNav
-        routes={routes}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
     </header>
   );
 }

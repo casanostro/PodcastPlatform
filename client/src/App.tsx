@@ -8,35 +8,49 @@ import Contact from "@/pages/contact";
 import NotFound from "@/pages/not-found";
 import { Footer } from "@/components/footer";
 
-// Terminal Boot Screen Component
+// Terminal Boot Screen Component - Exactly like Fallout 3 RobCo terminals
 const BootScreen = ({ onBootComplete }: { onBootComplete: () => void }) => {
   const [bootPhase, setBootPhase] = useState(0);
   const [bootLines, setBootLines] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
 
-  // Boot sequence messages
+  // Boot sequence messages - authentic RobCo messages
   const bootSequence = [
     "ROBCO INDUSTRIES UNIFIED OPERATING SYSTEM",
-    "COPYRIGHT 2074-2077 ROBCO INDUSTRIES",
-    "INITIATING DIAGNOSTIC...",
+    "COPYRIGHT 2075-2077 ROBCO INDUSTRIES",
+    "-INITIATING DIAGNOSTIC ROUTINES-",
     "SET TERMINAL/INQUIRE",
-    "SCANNING MEMORY BANKS...",
-    "CHECKING PERIPHERALS...",
-    "INITIALIZING SYSTEM...",
-    "DATA INTEGRITY CHECK...",
+    ">RIT-V300",
+    "SCAN RF ADAPTERS...",
+    "RF-3B ADAPTER: OK",
+    "RIT-V300 BIOS... SECURE",
+    "INITIALIZING ROBCO OS SERVICES",
+    "...",
+    "...",
+    "CHECKING MEMORY BANKS [64K OK]",
+    "CHECKING SYSTEM ARCHITECTURE...",
+    "CPU: ROBCO CPU 2077 @ 120MHz",
+    "MEMORY MODULES: OK",
+    "LOAD ROM(1): RBIOS-4.02.08.00",
+    "EXEC VERSION 41.10: LOAD SUCCESSFUL!",
+    "INITIALIZING FILESYSTEM [OK]",
+    ">SET TERMINAL/BOOT",
     "LOAD PERSONNEL FILE: ADRIEN_TRIPON.DAT",
-    "PERSONNEL SCAN COMPLETE",
-    "COMMAND LINE READY",
-    "AUTHENTICATING USER...",
-    "ACCESS GRANTED",
-    "INITIALIZING MAIN INTERFACE..."
+    "RUNNING DECRYPTION ROUTINE",
+    "...",
+    "PERSONNEL DATA FOUND",
+    "LOAD RESUME... [OK]",
+    "...",
+    ">CMD: AUTHENTICATE",
+    "-USER AUTHENTICATED-",
+    "ENTER PASSWORD NOW"
   ];
 
   useEffect(() => {
     // Initial delay before starting boot sequence
     const initialTimer = setTimeout(() => {
       setBootPhase(1);
-    }, 800);
+    }, 1200);
 
     return () => clearTimeout(initialTimer);
   }, []);
@@ -81,10 +95,10 @@ const BootScreen = ({ onBootComplete }: { onBootComplete: () => void }) => {
     }
     else if (bootPhase === 3) {
       // Final boot message and transition to main app
-      setBootLines(prev => [...prev, "BOOT SEQUENCE COMPLETE"]);
+      setBootLines(prev => [...prev, "LOGIN SUCCESSFUL", "INITIATING ROBCO INTERFACE..."]);
       timer = window.setTimeout(() => {
         onBootComplete();
-      }, 1200);
+      }, 1500);
     }
 
     return () => {
@@ -93,43 +107,37 @@ const BootScreen = ({ onBootComplete }: { onBootComplete: () => void }) => {
   }, [bootPhase, onBootComplete]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-terminal-dark p-6">
-      <div className="w-full max-w-2xl terminal-screen p-6 crt-glow">
-        <div className="text-xl font-robco text-terminal-header mb-4">
-          {bootPhase >= 1 && "ROBCO INDUSTRIES (TM)"}
+    <div className="boot-screen">
+      <div className="w-full max-w-2xl">
+        <div className="robco-logo crt-flicker">
+          ROBCO INDUSTRIES (TM)
         </div>
         
-        <div className="font-mono text-terminal-green mb-6 overflow-y-auto h-64">
+        <div className="boot-messages">
           {bootLines.map((line, index) => (
-            <div key={index} className="terminal-line mb-2">
+            <div key={index} className="boot-message">
               {line}
             </div>
           ))}
           
           {bootPhase === 1 && (
-            <span className="cursor-blink">▌</span>
+            <span className="cursor">&#9608;</span>
           )}
         </div>
         
         {bootPhase >= 2 && (
-          <div className="mb-4">
-            <div className="text-sm mb-1 font-mono">CHARGEMENT SYSTÈME...</div>
-            <div className="w-full h-6 border border-terminal-green p-1">
-              <div 
-                className="h-full bg-terminal-green terminal-flicker"
-                style={{ width: `${progress}%` }}
-              ></div>
-            </div>
-            <div className="flex justify-between text-xs mt-1 font-mono">
-              <span>SÉQUENCE D'INITIALISATION</span>
+          <div className="progress-container">
+            <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+            <div className="progress-status">
+              <span>SYSTEM INITIALIZATION</span>
               <span>{progress}%</span>
             </div>
           </div>
         )}
         
         {bootPhase === 3 && (
-          <div className="text-terminal-header mt-4 terminal-flicker">
-            BIENVENUE, UTILISATEUR AUTORISÉ
+          <div className="text-terminal-green mt-4 crt-flicker text-center">
+            WELCOME, AUTHORIZED USER
           </div>
         )}
       </div>
@@ -156,16 +164,18 @@ function App() {
     <>
       {!bootComplete && <BootScreen onBootComplete={handleBootComplete} />}
       
-      <div className={`min-h-screen flex flex-col ${bootComplete ? 'crt-boot' : 'opacity-0'}`}>
+      <div className={`robco-wrapper ${bootComplete ? 'crt-boot' : 'opacity-0'}`}>
         <MainNav />
-        <main className="flex-grow">
-          <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/projects" component={Projects} />
-            <Route path="/projects/:slug" component={ProjectDetail} />
-            <Route path="/contact" component={Contact} />
-            <Route component={NotFound} />
-          </Switch>
+        <main className="robco-content">
+          <div className="robco-screen">
+            <Switch>
+              <Route path="/" component={Home} />
+              <Route path="/projects" component={Projects} />
+              <Route path="/projects/:slug" component={ProjectDetail} />
+              <Route path="/contact" component={Contact} />
+              <Route component={NotFound} />
+            </Switch>
+          </div>
         </main>
         <Footer />
       </div>
