@@ -80,7 +80,7 @@ export default function Home() {
         const timer = setTimeout(() => {
           setTypedText(prev => prev + bootSequence[bootIndex] + "\n");
           setCurrentIndex(bootIndex + 1);
-        }, Math.random() * 100 + 50);
+        }, Math.random() * 40 + 20);
         
         return () => clearTimeout(timer);
       } else {
@@ -95,7 +95,7 @@ export default function Home() {
         const timer = setTimeout(() => {
           setTypedText(prev => prev + mainMenu[mainIndex] + "\n");
           setCurrentIndex(mainIndex + 1);
-        }, Math.random() * 50 + 30);
+        }, Math.random() * 40 + 20);
         
         return () => clearTimeout(timer);
       } else {
