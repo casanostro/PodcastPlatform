@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PodcastPlatform - Visualisation du Repository</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #00ff41;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            text-shadow: 0 0 10px #00ff41;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41; }
+            50% { text-shadow: 0 0 20px #00ff41, 0 0 30px #00ff41, 0 0 40px #00ff41; }
+        }
+
+        .header p {
+            color: #00cc33;
+            font-size: 1.2em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: #1a1a1a;
+            border: 2px solid #00ff41;
+            color: #00ff41;
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: 'Courier New', monospace;
+        }
+
+        .tab:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+        }
+
+        .tab.active {
+            background: #00ff41;
+            color: #0a0a0a;
+            font-weight: bold;
+        }
+
+        .content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid #00ff41;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 25px rgba(0, 255, 65, 0.3);
+            background: rgba(0, 255, 65, 0.1);
+        }
+
+        .card h3 {
+            color: #00ff41;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            text-shadow: 0 0 5px #00ff41;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            padding: 5px 0;
+            color: #00cc33;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+        }
+
+        .card li:before {
+            content: '> ';
+            color: #00ff41;
+        }
+
+        .tree {
+            background: rgba(0, 255, 65, 0.05);
+            border: 2px solid #00ff41;
+            border-radius: 8px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .tree-item {
+            color: #00cc33;
+            padding: 2px 0;
+        }
+
+        .tree-folder {
+            color: #00ff41;
+            font-weight: bold;
+        }
+
+        .tree-file {
+            color: #00aa22;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #00ff41;
+            color: #0a0a0a;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            margin: 5px 5px 5px 0;
+            font-weight: bold;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .feature-item {
+            background: rgba(0, 255, 65, 0.08);
+            border-left: 4px solid #00ff41;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .feature-item h4 {
+            color: #00ff41;
+            margin-bottom: 8px;
+        }
+
+        .feature-item p {
+            color: #00aa22;
+            font-size: 0.9em;
+        }
+
+        .terminal {
+            background: #0a0a0a;
+            border: 2px solid #00ff41;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.1);
+        }
+
+        .terminal-line {
+            color: #00ff41;
+            margin: 5px 0;
+        }
+
+        .terminal-line:before {
+            content: '$ ';
+            color: #00ff41;
+            font-weight: bold;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: rgba(0, 255, 65, 0.08);
+            border: 2px solid #00ff41;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            color: #00ff41;
+            font-weight: bold;
+            text-shadow: 0 0 10px #00ff41;
+        }
+
+        .stat-label {
+            color: #00aa22;
+            margin-top: 5px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            background: rgba(0, 255, 65, 0.05);
+            border-left: 4px solid #00ff41;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .timeline-item h4 {
+            color: #00ff41;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item p {
+            color: #00aa22;
+        }
+
+        code {
+            background: rgba(0, 255, 65, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+            color: #00ff41;
+        }
+
+        .warning {
+            background: rgba(255, 165, 0, 0.1);
+            border: 2px solid #ffa500;
+            color: #ffa500;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎙️ PodcastPlatform</h1>
+            <p>Portfolio & Marketplace - Terminal Retro Style (RobCo)</p>
+            <div class="tech-stack" style="justify-content: center; margin-top: 20px;">
+                <span class="badge">React 18.3</span>
+                <span class="badge">TypeScript</span>
+                <span class="badge">Express.js</span>
+                <span class="badge">PostgreSQL</span>
+                <span class="badge">Tailwind CSS</span>
+                <span class="badge">Vite</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Vue d'ensemble</button>
+            <button class="tab" onclick="showTab('structure')">📁 Structure</button>
+            <button class="tab" onclick="showTab('frontend')">🎨 Frontend</button>
+            <button class="tab" onclick="showTab('backend')">⚙️ Backend</button>
+            <button class="tab" onclick="showTab('features')">✨ Fonctionnalités</button>
+            <button class="tab" onclick="showTab('tech')">🔧 Technologies</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="content active">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Pages React</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">47</div>
+                    <div class="stat-label">Composants UI</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">API Endpoints</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Tables DB</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>🎯 Description du Projet</h3>
+                <p style="color: #00aa22; line-height: 1.8;">
+                    Malgré son nom, <strong>PodcastPlatform</strong> est une plateforme portfolio moderne avec marketplace intégré.
+                    Elle présente une esthétique terminal rétro inspirée du RobCo Terminal de Fallout 3, avec des effets CRT et une interface en ligne de commande.
+                    Le site combine un portfolio professionnel pour un expert en supply chain et transformation digitale avec une marketplace d'équipement podcast.
+                </p>
+            </div>
+
+            <div class="terminal">
+                <div class="terminal-line">npm run dev</div>
+                <div class="terminal-line">npm run build</div>
+                <div class="terminal-line">npm run start</div>
+                <div class="terminal-line">npm run db:push</div>
+            </div>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>🎨 Design System</h3>
+                    <ul>
+                        <li>Esthétique terminal RobCo (Fallout 3)</li>
+                        <li>Couleur principale: Green Terminal (#00ff41)</li>
+                        <li>Animations de boot sequence</li>
+                        <li>Effets CRT flicker</li>
+                        <li>Dark mode intégré</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔑 Points Clés</h3>
+                    <ul>
+                        <li>Full-stack TypeScript</li>
+                        <li>Type-safety avec Zod</li>
+                        <li>Responsive design</li>
+                        <li>React Query pour state management</li>
+                        <li>shadcn/ui components</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Structure Tab -->
+        <div id="structure" class="content">
+            <div class="tree">
+                <div class="tree-item tree-folder">📁 PodcastPlatform/</div>
+                <div class="tree-item">├── 📁 <span class="tree-folder">client/</span> - Frontend React + Vite</div>
+                <div class="tree-item">│   ├── 📁 <span class="tree-folder">src/</span></div>
+                <div class="tree-item">│   │   ├── 📁 <span class="tree-folder">pages/</span> - 8 pages principales</div>
+                <div class="tree-item">│   │   │   ├── 📄 home.tsx - Interface terminal interactive</div>
+                <div class="tree-item">│   │   │   ├── 📄 projects.tsx - Portfolio de projets</div>
+                <div class="tree-item">│   │   │   ├── 📄 project-detail.tsx - Détails projet</div>
+                <div class="tree-item">│   │   │   ├── 📄 portfolio.tsx - CV professionnel</div>
+                <div class="tree-item">│   │   │   ├── 📄 blog.tsx - Articles de blog</div>
+                <div class="tree-item">│   │   │   ├── 📄 marketplace.tsx - Marketplace équipement</div>
+                <div class="tree-item">│   │   │   ├── 📄 contact.tsx - Formulaire de contact</div>
+                <div class="tree-item">│   │   │   └── 📄 not-found.tsx - Page 404</div>
+                <div class="tree-item">│   │   ├── 📁 <span class="tree-folder">components/</span></div>
+                <div class="tree-item">│   │   │   ├── 📁 <span class="tree-folder">ui/</span> - 47 composants shadcn/ui</div>
+                <div class="tree-item">│   │   │   ├── 📄 terminal-screen.tsx - Wrapper terminal</div>
+                <div class="tree-item">│   │   │   ├── 📄 podcast-card.tsx - Carte marketplace</div>
+                <div class="tree-item">│   │   │   ├── 📄 project-card.tsx - Carte projet</div>
+                <div class="tree-item">│   │   │   └── 📄 main-nav.tsx - Navigation principale</div>
+                <div class="tree-item">│   │   ├── 📁 <span class="tree-folder">hooks/</span> - Hooks React custom</div>
+                <div class="tree-item">│   │   ├── 📁 <span class="tree-folder">lib/</span> - Utilitaires</div>
+                <div class="tree-item">│   │   └── 📄 App.tsx - Composant principal</div>
+                <div class="tree-item">│   └── 📄 index.html</div>
+                <div class="tree-item">├── 📁 <span class="tree-folder">server/</span> - Backend Express</div>
+                <div class="tree-item">│   ├── 📄 index.ts - Point d'entrée serveur</div>
+                <div class="tree-item">│   ├── 📄 routes.ts - Routes API (7 endpoints)</div>
+                <div class="tree-item">│   ├── 📄 storage.ts - Couche de stockage</div>
+                <div class="tree-item">│   └── 📄 vite.ts - Intégration Vite</div>
+                <div class="tree-item">├── 📁 <span class="tree-folder">shared/</span> - Code partagé</div>
+                <div class="tree-item">│   ├── 📄 schema.ts - Schémas Drizzle ORM</div>
+                <div class="tree-item">│   └── 📁 <span class="tree-folder">data/</span></div>
+                <div class="tree-item">│       ├── 📄 projects.json - Données projets</div>
+                <div class="tree-item">│       └── 📄 podcasts.json - Données marketplace</div>
+                <div class="tree-item">├── 📄 package.json</div>
+                <div class="tree-item">├── 📄 vite.config.ts</div>
+                <div class="tree-item">├── 📄 tailwind.config.ts</div>
+                <div class="tree-item">└── 📄 drizzle.config.ts</div>
+            </div>
+        </div>
+
+        <!-- Frontend Tab -->
+        <div id="frontend" class="content">
+            <h2 style="color: #00ff41; margin-bottom: 20px;">🎨 Frontend Architecture</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>Pages Principales (8)</h3>
+                    <ul>
+                        <li><strong>home.tsx</strong> (304 lignes) - Terminal CLI</li>
+                        <li><strong>projects.tsx</strong> (193 lignes) - Portfolio</li>
+                        <li><strong>project-detail.tsx</strong> - Détails projet</li>
+                        <li><strong>portfolio.tsx</strong> (240 lignes) - CV</li>
+                        <li><strong>blog.tsx</strong> (310 lignes) - Articles</li>
+                        <li><strong>marketplace.tsx</strong> - E-commerce</li>
+                        <li><strong>contact.tsx</strong> (274 lignes) - Contact</li>
+                        <li><strong>not-found.tsx</strong> - 404</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Composants UI (47)</h3>
+                    <ul>
+                        <li>Forms: Input, Textarea, Select, Checkbox</li>
+                        <li>Layout: Card, Sidebar, Sheet, Dialog</li>
+                        <li>Navigation: Menubar, Breadcrumb, Tabs</li>
+                        <li>Data: Table, Accordion, Calendar</li>
+                        <li>Feedback: Toast, Alert, Progress, Badge</li>
+                        <li>Charts & Visualisations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>🎭 Esthétique Terminal</h4>
+                    <p>Interface style RobCo (Fallout 3) avec animations de boot, effets CRT flicker, et curseur clignotant</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📱 Responsive Design</h4>
+                    <p>Navigation mobile optimisée, détection mobile avec hook custom, adaptation parfaite à tous les écrans</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎨 Tailwind + shadcn/ui</h4>
+                    <p>Design system complet avec 47 composants pré-configurés, thème personnalisé RobCo terminal</p>
+                </div>
+                <div class="feature-item">
+                    <h4>⚡ React Query</h4>
+                    <p>Gestion d'état serveur avec cache automatique, optimistic updates, et synchronisation</p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>🎨 Palette de Couleurs Terminal</h3>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px;">
+                    <div style="background: hsl(142, 84%, 59%); padding: 20px; border-radius: 5px; color: black; font-weight: bold;">
+                        Terminal Green<br>#00ff41
+                    </div>
+                    <div style="background: hsl(0, 0%, 7%); padding: 20px; border-radius: 5px; border: 2px solid #00ff41;">
+                        Terminal Dark<br>#121212
+                    </div>
+                    <div style="background: hsl(152, 58%, 91%); padding: 20px; border-radius: 5px; color: black; font-weight: bold;">
+                        Terminal Text<br>#e8f8ef
+                    </div>
+                    <div style="background: hsl(160, 70%, 40%); padding: 20px; border-radius: 5px; color: white; font-weight: bold;">
+                        Terminal Header<br>#1fa36f
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Backend Tab -->
+        <div id="backend" class="content">
+            <h2 style="color: #00ff41; margin-bottom: 20px;">⚙️ Backend Architecture</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>🔌 API Endpoints (7)</h3>
+                    <ul>
+                        <li><code>GET /api/projects</code> - Tous les projets</li>
+                        <li><code>GET /api/projects/:id</code> - Projet par ID</li>
+                        <li><code>GET /api/projects/slug/:slug</code> - Projet par slug</li>
+                        <li><code>GET /api/podcasts</code> - Items marketplace</li>
+                        <li><code>GET /api/podcasts/featured</code> - Items vedettes</li>
+                        <li><code>GET /api/podcasts/:id</code> - Item par ID</li>
+                        <li><code>POST /api/contact</code> - Formulaire contact</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🗄️ Base de Données (4 Tables)</h3>
+                    <ul>
+                        <li><strong>projects</strong> - Projets portfolio</li>
+                        <li><strong>podcastItems</strong> - Articles marketplace</li>
+                        <li><strong>users</strong> - Comptes utilisateurs</li>
+                        <li><strong>contacts</strong> - Messages contact</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💾 Couche de Stockage - MemStorage</h3>
+                <p style="color: #00aa22; margin: 15px 0;">
+                    Implémentation en mémoire pour le développement avec chargement depuis fichiers JSON.
+                    Interface <code>IStorage</code> pour abstraction et migration facile vers PostgreSQL en production.
+                </p>
+                <ul>
+                    <li>Chargement automatique des données depuis <code>projects.json</code> et <code>podcasts.json</code></li>
+                    <li>Auto-incrémentation des IDs pour nouveaux enregistrements</li>
+                    <li>Interface abstraite permettant le changement de backend</li>
+                    <li>Support PostgreSQL avec Drizzle ORM configuré</li>
+                </ul>
+            </div>
+
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>🔐 Drizzle ORM</h4>
+                    <p>ORM TypeScript type-safe avec migrations automatiques, schemas Zod intégrés, support PostgreSQL</p>
+                </div>
+                <div class="feature-item">
+                    <h4>✅ Validation Zod</h4>
+                    <p>Validation côté serveur pour tous les endpoints, schémas partagés frontend/backend</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔄 Hot Reload</h4>
+                    <p>Développement avec tsx pour rechargement automatique, Vite HMR pour le frontend</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🚀 Express.js</h4>
+                    <p>Serveur Node.js robuste avec middleware, support WebSocket, intégration Vite en dev</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Tab -->
+        <div id="features" class="content">
+            <h2 style="color: #00ff41; margin-bottom: 20px;">✨ Fonctionnalités Principales</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>🏠 Page d'Accueil Interactive</h4>
+                    <p>
+                        Interface terminal complète avec séquence de boot animée style RobCo,
+                        commandes CLI fonctionnelles, navigation par clavier, ASCII art,
+                        effets de typing et CRT flicker
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>💼 Portfolio Professionnel</h4>
+                    <p>
+                        Showcase de 4 projets professionnels majeurs dans le domaine de la supply chain,
+                        avec filtrage par tags, détails complets, images, liens externes, et descriptions détaillées
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>🛒 Marketplace E-commerce</h4>
+                    <p>
+                        Catalogue d'équipement podcast avec filtrage par catégories (Microphones, Studios, Interfaces, Services),
+                        système de prix, items vedettes, fiches produits détaillées
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>📝 Blog & Articles</h4>
+                    <p>
+                        Système de blog complet avec liste d'articles, pagination,
+                        catégorisation, et affichage détaillé
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>📧 Formulaire de Contact</h4>
+                    <p>
+                        Formulaire validé avec React Hook Form et Zod,
+                        envoi vers API backend, stockage en base de données,
+                        feedback utilisateur avec toasts
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>🎨 Design System Complet</h4>
+                    <p>
+                        47 composants UI shadcn/ui, thème personnalisé RobCo terminal,
+                        dark mode natif, animations Framer Motion,
+                        responsive design mobile-first
+                    </p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>🎯 Données Contenues</h3>
+                <div class="grid" style="margin-top: 15px;">
+                    <div>
+                        <h4 style="color: #00ff41; margin-bottom: 10px;">📊 Projets (4)</h4>
+                        <ul>
+                            <li>Samsung Electronics France - Supply Chain</li>
+                            <li>Oplit - Logistics Project Management</li>
+                            <li>Arvato BU Healthcare - Operations</li>
+                            <li>Groupe Servia - Logistics Director</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #00ff41; margin-bottom: 10px;">🎙️ Marketplace</h4>
+                        <ul>
+                            <li>Microphones professionnels</li>
+                            <li>Interfaces audio</li>
+                            <li>Studios de podcast</li>
+                            <li>Services de production</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Tab -->
+        <div id="tech" class="content">
+            <h2 style="color: #00ff41; margin-bottom: 20px;">🔧 Stack Technologique Complète</h2>
+
+            <div class="grid">
+                <div class="card">
+                    <h3>⚛️ Frontend</h3>
+                    <ul>
+                        <li><strong>React 18.3</strong> - UI Library</li>
+                        <li><strong>TypeScript 5.6</strong> - Type Safety</li>
+                        <li><strong>Vite 5.4</strong> - Build Tool</li>
+                        <li><strong>Tailwind CSS 3.4</strong> - Styling</li>
+                        <li><strong>shadcn/ui</strong> - Component Library</li>
+                        <li><strong>Wouter</strong> - Routing</li>
+                        <li><strong>React Query 5.76</strong> - State Management</li>
+                        <li><strong>React Hook Form</strong> - Forms</li>
+                        <li><strong>Framer Motion</strong> - Animations</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🔧 Backend</h3>
+                    <ul>
+                        <li><strong>Node.js</strong> - Runtime</li>
+                        <li><strong>Express 4.21</strong> - Web Framework</li>
+                        <li><strong>TypeScript 5.6</strong> - Type Safety</li>
+                        <li><strong>PostgreSQL</strong> - Base de données</li>
+                        <li><strong>Drizzle ORM 0.39</strong> - ORM</li>
+                        <li><strong>Zod</strong> - Validation</li>
+                        <li><strong>Passport.js</strong> - Authentication</li>
+                        <li><strong>ws 8.18</strong> - WebSocket</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>🛠️ Dev Tools</h3>
+                    <ul>
+                        <li><strong>tsx</strong> - TypeScript executor</li>
+                        <li><strong>esbuild</strong> - Bundler backend</li>
+                        <li><strong>PostCSS</strong> - CSS processing</li>
+                        <li><strong>Autoprefixer</strong> - CSS vendor prefixes</li>
+                        <li><strong>ESLint</strong> - Linting (configuré)</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>📦 Packages Clés</h3>
+                    <ul>
+                        <li><strong>@tanstack/react-query</strong> - Data fetching</li>
+                        <li><strong>drizzle-zod</strong> - Schema validation</li>
+                        <li><strong>class-variance-authority</strong> - Variants</li>
+                        <li><strong>clsx & tailwind-merge</strong> - Utilities</li>
+                        <li><strong>lucide-react</strong> - Icons</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>🏗️ Architecture & Patterns</h3>
+                <div class="feature-list" style="margin-top: 15px;">
+                    <div class="feature-item">
+                        <h4>📐 Type-Safe Full-Stack</h4>
+                        <p>TypeScript partout avec types partagés entre frontend/backend, validation Zod des deux côtés</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎯 Component-Based</h4>
+                        <p>Architecture composants React réutilisables, séparation UI/Business logic, hooks custom</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🔄 Server State Management</h4>
+                        <p>React Query pour cache automatique, optimistic updates, background refetching</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>📦 Monorepo Structure</h4>
+                        <p>Client/Server/Shared séparés, code partagé pour schemas et types, build indépendants</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🎨 Design System</h4>
+                        <p>shadcn/ui avec customisation complète, thème RobCo terminal, dark mode, variants</p>
+                    </div>
+                    <div class="feature-item">
+                        <h4>🗄️ Database Abstraction</h4>
+                        <p>Interface IStorage pour flexibilité, Drizzle ORM type-safe, migrations automatiques</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="terminal">
+                <div class="terminal-line">git clone &lt;repo&gt;</div>
+                <div class="terminal-line">npm install</div>
+                <div class="terminal-line">npm run db:push</div>
+                <div class="terminal-line">npm run dev</div>
+                <div style="color: #00aa22; margin-top: 10px;">
+                    ✓ Server running on http://localhost:5000<br>
+                    ✓ Frontend available at http://localhost:5000<br>
+                    ✓ Hot reload enabled
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all content
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
