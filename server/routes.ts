@@ -91,7 +91,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Contact form submission endpoint
   app.post("/api/contact", async (req: Request, res: Response) => {
     try {
-      const validationResult = insertContactSchema.safeParse(req.body);
+      // createdAt is set server-side below, so it must not be required from the client
+      const validationResult = insertContactSchema.omit({ createdAt: true }).safeParse(req.body);
       
       if (!validationResult.success) {
         return res.status(400).json({ 
