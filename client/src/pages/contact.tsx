@@ -38,7 +38,7 @@ TERMINAL DE COMMUNICATION - ADRIEN TRIPON
 VEUILLEZ SUIVRE LE PROTOCOLE DE CONTACT CI-DESSOUS:`;
 
   // Form steps for terminal-style interaction
-  const formSteps = [
+  const formSteps: { field: keyof ContactFormValues; prompt: string }[] = [
     { field: "name", prompt: "ENTREZ VOTRE NOM:" },
     { field: "email", prompt: "ENTREZ VOTRE ADRESSE E-MAIL:" },
     { field: "subject", prompt: "ENTREZ L'OBJET DE VOTRE MESSAGE:" },
@@ -73,6 +73,7 @@ VEUILLEZ SUIVRE LE PROTOCOLE DE CONTACT CI-DESSOUS:`;
 
     const currentField = formSteps[currentStep].field;
     let value = currentInput.trim();
+    let updatedFormData = formData;
 
     // Special handling for the message field with /END command
     if (currentField === "message" && !value.endsWith("/END")) {
@@ -96,7 +97,8 @@ VEUILLEZ SUIVRE LE PROTOCOLE DE CONTACT CI-DESSOUS:`;
       // Validate final message
       try {
         contactFormSchema.shape[currentField].parse(finalMessage);
-        setFormData(prev => ({ ...prev, [currentField]: finalMessage }));
+        updatedFormData = { ...formData, [currentField]: finalMessage };
+        setFormData(updatedFormData);
       } catch (error) {
         if (error instanceof z.ZodError) {
           setErrorMessage(error.errors[0].message);
@@ -108,7 +110,8 @@ VEUILLEZ SUIVRE LE PROTOCOLE DE CONTACT CI-DESSOUS:`;
       // Validate other fields
       try {
         contactFormSchema.shape[currentField].parse(value);
-        setFormData(prev => ({ ...prev, [currentField]: value }));
+        updatedFormData = { ...formData, [currentField]: value };
+        setFormData(updatedFormData);
       } catch (error) {
         if (error instanceof z.ZodError) {
           setErrorMessage(error.errors[0].message);
@@ -124,15 +127,17 @@ VEUILLEZ SUIVRE LE PROTOCOLE DE CONTACT CI-DESSOUS:`;
     if (currentStep < formSteps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      submitForm();
+      // Pass the data explicitly: setFormData hasn't re-rendered yet,
+      // so reading formData from state here would miss the last field
+      submitForm(updatedFormData);
     }
   };
 
   // Submit form to API
-  const submitForm = async () => {
+  const submitForm = async (data: Partial<ContactFormValues>) => {
     setIsSubmitting(true);
     try {
-      await apiRequest("POST", "/api/contact", formData as ContactFormValues);
+      await apiRequest("POST", "/api/contact", data as ContactFormValues);
       toast({
         title: "TRANSMISSION RÉUSSIE",
         description: "Message reçu. Une réponse vous sera envoyée dans les plus brefs délais.",

@@ -112,7 +112,13 @@ export class MemStorage implements IStorage {
 
   async createPodcastItem(insertPodcastItem: InsertPodcastItem): Promise<PodcastItem> {
     const id = this.podcastItemCurrentId++;
-    const podcastItem: PodcastItem = { ...insertPodcastItem, id };
+    const podcastItem: PodcastItem = {
+      ...insertPodcastItem,
+      id,
+      badge: insertPodcastItem.badge ?? null,
+      badgeColor: insertPodcastItem.badgeColor ?? null,
+      featured: insertPodcastItem.featured ?? null,
+    };
     this.podcastItems.set(id, podcastItem);
     return podcastItem;
   }
