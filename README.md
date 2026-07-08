@@ -1,5 +1,7 @@
 # PodcastPlatform — Portfolio terminal RobCo
 
+> **Nouveau : portfolio statique « cyberpunk monochrome »** dans [`docs/`](docs/) — un `index.html` autonome déployable sur GitHub Pages sans build. Voir [`docs/README.md`](docs/README.md) pour les instructions de publication.
+
 Site portfolio/CV au style terminal Fallout (RobCo), construit avec React + Vite côté client et Express côté serveur, servis sur un port unique. Le projet était à l'origine hébergé sur Replit ; il est désormais autonome et tourne sur n'importe quelle machine avec Node.js.
 
 ## Prérequis
