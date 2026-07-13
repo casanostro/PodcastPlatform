@@ -3,277 +3,454 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Portfolio — Business Analyst Supply Chain & Data. Systèmes data, automatisation et IA appliquée.">
-<title>BA://SUPPLY-DATA — Portfolio Data · Automation · IA</title>
-
-<!-- Typo : mono technique pour titres/data, sans-serif pour le corps -->
+<meta name="description" content="Adrien Tripon — Senior Business Analyst Supply Chain & Data. Systèmes data, automatisation et IA appliquée.">
+<title>Adrien Tripon — Business Analyst Supply Chain & Data</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='8' cy='16' r='4' fill='%2331708f'/%3E%3Cpath d='M12 16h8' stroke='%2331708f' stroke-width='2'/%3E%3Ccircle cx='24' cy='16' r='4' fill='%23161d24'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-<!-- Graphiques : Chart.js via CDN (aucun build requis) -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   DESIGN TOKENS — monochrome strict (noir profond → blanc cassé)
-   Le "cyberpunk" vit dans la lumière, la grille et la typo,
-   jamais dans la couleur.
-   ============================================================ */
-:root{
-  --bg:        #0a0a0c;   /* noir profond, très légèrement bleuté-neutre */
-  --bg-raise:  #101013;   /* panneaux */
-  --bg-raise2: #16161a;   /* panneaux survolés */
-  --line:      #26262b;   /* bordures */
-  --line-soft: rgba(245,245,240,.07);  /* grilles de charts */
-  --ink:       #e8e8e2;   /* texte principal (AA sur --bg) */
-  --ink-soft:  #a8a8a2;   /* texte secondaire */
-  --ink-mute:  #6e6e66;   /* texte discret / labels techniques */
-  --glow:      #f5f5f0;   /* blanc cassé "néon désaturé" */
-  /* Palette séries charts — validée (CVD ΔE 24.7, contraste ≥ 3:1) */
-  --s1: #f5f5f0;
-  --s2: #b0b0aa;
-  --s3: #6e6e66;
-  --mono: 'JetBrains Mono', ui-monospace, monospace;
-  --sans: 'Inter', system-ui, sans-serif;
+:root {
+  --bg: #eef1f5;
+  --bg-card: #ffffff;
+  --encre: #161d24;
+  --encre-2: #2e3a46;
+  --graphite: #5c6b7a;
+  --flux: #31708f;
+  --flux-light: rgba(49,112,143,.08);
+  --flux-mid: rgba(49,112,143,.15);
+  --ambre: #c98a2d;
+  --line: #d0d5dc;
+  --line-soft: #e2e6eb;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --wrap: 1080px;
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth; overflow-x:hidden}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:var(--sans);
-  font-size:16px;
-  line-height:1.6;
-  overflow-x:hidden;
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  background: var(--bg);
+  color: var(--encre);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Grille de fond discrète, esthétique HUD */
-body::before{
-  content:"";
-  position:fixed; inset:0; z-index:-2;
-  background-image:
-    linear-gradient(var(--line-soft) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
-  background-size:56px 56px;
-  mask-image:radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
-  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
+::selection { background: var(--flux); color: #fff; }
+a { color: var(--flux); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
+
+/* ── NAV ─────────────────────────────────── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(238,241,245,.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line-soft);
 }
-/* Halo lumineux monochrome en haut de page */
-body::after{
-  content:"";
-  position:fixed; inset:0; z-index:-1; pointer-events:none;
-  background:radial-gradient(ellipse 60% 40% at 50% -10%, rgba(245,245,240,.09), transparent 70%);
+nav { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+.logo {
+  font-family: var(--mono); font-weight: 700; font-size: .82rem;
+  letter-spacing: .06em; color: var(--encre);
+  display: flex; align-items: center; gap: 8px;
+}
+.logo .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--flux);
+}
+.nav-links { display: flex; gap: 24px; }
+.nav-links a {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--graphite); text-decoration: none;
+}
+.nav-links a:hover { color: var(--encre); }
+@media(max-width:700px) { .nav-links { display: none; } }
+
+/* ── HERO ────────────────────────────────── */
+.hero {
+  padding: 100px 0 80px;
+  position: relative;
+}
+.hero-kicker {
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--graphite);
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 24px;
+}
+.hero-kicker .dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--flux); display: inline-block;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: .35; } }
+.hero h1 {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 700; line-height: 1.15;
+  color: var(--encre);
+  max-width: 800px;
+  margin-bottom: 24px;
+}
+.hero h1 em { font-style: normal; color: var(--flux); }
+.hero .lead {
+  font-size: 1.1rem; color: var(--graphite);
+  max-width: 660px; line-height: 1.7;
 }
 
-::selection{background:var(--glow); color:var(--bg)}
+/* KPI row */
+.kpi-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+  background: var(--line); border: 1px solid var(--line);
+  margin-top: 56px;
+}
+@media(max-width:820px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+.kpi {
+  background: var(--bg-card); padding: 24px 20px;
+  transition: background .2s;
+}
+.kpi:hover { background: var(--flux-light); }
+.kpi .val {
+  font-family: var(--mono); font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--encre);
+}
+.kpi .val small { font-size: .55em; color: var(--graphite); font-weight: 500; }
+.kpi .lbl { font-size: .78rem; color: var(--graphite); margin-top: 4px; }
 
-a{color:var(--ink); text-decoration:none}
-a:hover{color:var(--glow)}
-
-.wrap{max-width:1120px; margin:0 auto; padding:0 24px}
-
-/* ---------- typographie technique ---------- */
-h1,h2,h3,.mono{font-family:var(--mono)}
-.kicker{
-  font-family:var(--mono); font-size:.72rem; letter-spacing:.22em;
-  text-transform:uppercase; color:var(--ink-mute);
+/* ── STAT BAND ───────────────────────────── */
+.statband {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-card);
+  padding: 32px 0;
 }
-.kicker::before{content:"// "}
-
-/* ---------- barre de navigation ---------- */
-header{
-  position:sticky; top:0; z-index:50;
-  background:rgba(10,10,12,.82); backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);
+.statband .row {
+  display: grid; grid-template-columns: repeat(6, 1fr);
+  gap: 20px; text-align: center;
 }
-nav{display:flex; align-items:center; justify-content:space-between; height:56px}
-.logo{font-family:var(--mono); font-weight:700; font-size:.9rem; letter-spacing:.08em}
-.logo em{font-style:normal; color:var(--ink-mute)}
-.nav-links{display:flex; gap:28px; font-family:var(--mono); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase}
-.nav-links a{color:var(--ink-soft)}
-.nav-links a:hover{color:var(--glow); text-shadow:0 0 12px rgba(245,245,240,.5)}
-@media(max-width:640px){.nav-links{display:none}}
-
-/* ---------- hero ---------- */
-.hero{padding:96px 0 72px; position:relative}
-.hero h1{
-  font-size:clamp(1.55rem, 3.8vw, 2.6rem); font-weight:700; line-height:1.2;
-  margin:18px 0 20px;
-  background:linear-gradient(135deg, #f5f5f0 30%, #7a7a72 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
+@media(max-width:900px) { .statband .row { grid-template-columns: repeat(3, 1fr); row-gap: 28px; } }
+@media(max-width:560px) { .statband .row { grid-template-columns: repeat(2, 1fr); } }
+.stat .val {
+  font-family: var(--mono); font-weight: 700; font-size: 1.3rem;
+  color: var(--encre);
 }
-@media(max-width:860px){.hero h1 br{display:none}} /* laisse le texte se réenrouler en mobile */
-.hero .tagline{max-width:640px; color:var(--ink-soft); font-size:1.05rem}
-.hero .tagline strong{color:var(--ink); font-weight:600}
-.hero-status{
-  display:inline-flex; align-items:center; gap:10px; margin-top:26px;
-  font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--ink-soft); border:1px solid var(--line); padding:8px 14px;
-}
-.hero-status .dot{
-  width:7px; height:7px; border-radius:50%; background:var(--glow);
-  box-shadow:0 0 8px rgba(245,245,240,.9);
-  animation:pulse 2.4s ease-in-out infinite;
-}
-@keyframes pulse{50%{opacity:.35}}
-
-/* KPIs hero */
-.kpi-grid{
-  display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
-  background:var(--line); border:1px solid var(--line); margin-top:56px;
-}
-@media(max-width:820px){.kpi-grid{grid-template-columns:repeat(2,1fr)}}
-.kpi{background:var(--bg-raise); padding:26px 22px; position:relative; overflow:hidden}
-.kpi::after{ /* liseré lumineux en haut de chaque tuile */
-  content:""; position:absolute; top:0; left:0; right:0; height:1px;
-  background:linear-gradient(90deg, transparent, rgba(245,245,240,.5), transparent);
-  opacity:0; transition:opacity .4s;
-}
-.kpi:hover::after{opacity:1}
-.kpi .val{
-  font-family:var(--mono); font-weight:700; font-size:clamp(1.6rem,3.4vw,2.3rem);
-  color:var(--glow); text-shadow:0 0 24px rgba(245,245,240,.25);
-}
-.kpi .val small{font-size:.55em; color:var(--ink-soft); font-weight:500}
-.kpi .lbl{font-size:.78rem; color:var(--ink-soft); margin-top:6px}
-
-/* ---------- bandeau de stats ---------- */
-.statband{
-  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-  background:linear-gradient(180deg, var(--bg-raise), var(--bg));
-  padding:34px 0;
-}
-.statband .row{
-  display:grid; grid-template-columns:repeat(6,1fr); gap:20px; text-align:center;
-}
-@media(max-width:900px){.statband .row{grid-template-columns:repeat(3,1fr); row-gap:30px}}
-@media(max-width:560px){.statband .row{grid-template-columns:repeat(2,1fr)}}
-.stat .val{font-family:var(--mono); font-weight:700; font-size:1.35rem; color:var(--ink)}
-.stat .val small{font-size:.6em; color:var(--ink-soft)}
-.stat .lbl{font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-mute); margin-top:4px}
-
-/* ---------- sections ---------- */
-section{padding:88px 0}
-.sec-head{margin-bottom:48px}
-.sec-head h2{font-size:clamp(1.3rem,3vw,1.9rem); font-weight:700; margin-top:14px}
-.sec-head p{color:var(--ink-soft); max-width:620px; margin-top:10px}
-
-/* ---------- cartes projet ---------- */
-.project{
-  border:1px solid var(--line); background:var(--bg-raise);
-  margin-bottom:36px; position:relative;
-  transition:border-color .3s, box-shadow .3s;
-}
-.project:hover{border-color:#3a3a40; box-shadow:0 0 40px rgba(245,245,240,.05)}
-.project-head{
-  display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;
-  padding:22px 28px; border-bottom:1px solid var(--line);
-}
-.project-head .num{font-family:var(--mono); color:var(--ink-mute); font-size:.8rem}
-.project-head h3{font-size:1.1rem; font-weight:700; letter-spacing:.02em}
-.project-head .tags{margin-left:auto; display:flex; gap:8px; flex-wrap:wrap}
-.tag{
-  font-family:var(--mono); font-size:.62rem; letter-spacing:.08em; text-transform:uppercase;
-  color:var(--ink-soft); border:1px solid var(--line); padding:3px 9px;
-}
-.project-body{
-  display:grid; grid-template-columns:1.05fr .95fr; gap:0;
-}
-@media(max-width:860px){.project-body{grid-template-columns:1fr}}
-.project-text{padding:28px; border-right:1px solid var(--line)}
-@media(max-width:860px){.project-text{border-right:none; border-bottom:1px solid var(--line)}}
-.project-text p{color:var(--ink-soft); font-size:.95rem}
-.project-text p+p{margin-top:12px}
-.project-text .impact{
-  margin-top:18px; padding:14px 16px; border-left:2px solid var(--glow);
-  background:rgba(245,245,240,.04); font-size:.9rem;
-}
-.project-text .impact strong{font-family:var(--mono); color:var(--glow)}
-.project-viz{padding:28px; display:flex; flex-direction:column; gap:18px; justify-content:center}
-.viz-title{font-family:var(--mono); font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-mute)}
-.chart-box{position:relative; width:100%}
-.chart-box.h220{height:220px}
-.chart-box.h180{height:180px}
-.chart-box.h150{height:150px}
-
-/* mini-tuiles chiffrées dans les vizs */
-.mini-tiles{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line)}
-.mini-tiles .mt{background:var(--bg); padding:16px}
-.mt .v{font-family:var(--mono); font-weight:700; font-size:1.25rem; color:var(--glow)}
-.mt .v small{font-size:.6em; color:var(--ink-soft)}
-.mt .l{font-size:.7rem; color:var(--ink-mute); margin-top:3px}
-
-/* pipeline HUD (projet 1) */
-.pipeline{display:flex; align-items:stretch; gap:0; font-family:var(--mono); font-size:.68rem}
-.pipeline .step{
-  flex:1; border:1px solid var(--line); padding:12px 10px; text-align:center;
-  background:var(--bg); color:var(--ink-soft); position:relative;
-}
-.pipeline .step b{display:block; color:var(--ink); font-size:.74rem; margin-bottom:3px}
-.pipeline .arrow{align-self:center; padding:0 8px; color:var(--ink-mute)}
-@media(max-width:600px){ /* en mobile le pipeline passe en vertical */
-  .pipeline{flex-direction:column}
-  .pipeline .arrow{transform:rotate(90deg); padding:4px 0; text-align:center}
+.stat .val small { font-size: .6em; color: var(--graphite); }
+.stat .lbl {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--graphite); margin-top: 4px;
 }
 
-/* gauge textuelle (projet 5) */
-.ratio-bar{border:1px solid var(--line); background:var(--bg); padding:16px}
-.ratio-bar .rb-head{display:flex; justify-content:space-between; font-family:var(--mono); font-size:.68rem; color:var(--ink-soft); margin-bottom:8px}
-.ratio-bar .track{height:14px; background:#1c1c20; position:relative; overflow:hidden}
-.ratio-bar .fill{
-  position:absolute; inset:0; width:0%;
-  background:linear-gradient(90deg,#6e6e66,#f5f5f0);
-  box-shadow:0 0 14px rgba(245,245,240,.35);
-  transition:width 1.4s cubic-bezier(.2,.8,.2,1);
+/* ── SECTION HEADERS (node-head) ─────────── */
+section { padding: 88px 0; }
+.node-head { margin-bottom: 48px; }
+.node-label {
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--flux);
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 14px;
 }
-.ratio-bar .rb-foot{font-family:var(--mono); font-size:.64rem; color:var(--ink-mute); margin-top:8px}
-
-/* ---------- stack ---------- */
-.stack-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:24px}
-@media(max-width:820px){.stack-grid{grid-template-columns:1fr}}
-.stack-panel{border:1px solid var(--line); background:var(--bg-raise); padding:24px}
-.stack-panel h3{font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:16px}
-.stack-panel h3::before{content:"▸ "; color:var(--ink-mute)}
-.skill{margin-bottom:14px}
-.skill:last-child{margin-bottom:0}
-.skill .s-head{display:flex; justify-content:space-between; font-family:var(--mono); font-size:.74rem; margin-bottom:5px}
-.skill .s-head .ctx{color:var(--ink-mute); font-size:.64rem; text-transform:uppercase; letter-spacing:.08em}
-.skill .s-track{height:5px; background:#1c1c20}
-.skill .s-fill{
-  height:100%; width:0;
-  background:linear-gradient(90deg,#55554f,#f5f5f0);
-  transition:width 1.2s cubic-bezier(.2,.8,.2,1);
+.node-label .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--flux); display: inline-block;
+}
+.node-head h2 {
+  font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 700;
+  color: var(--encre); max-width: 700px;
+}
+.node-head .sub {
+  color: var(--graphite); max-width: 620px; margin-top: 10px;
 }
 
-/* ---------- footer ---------- */
-footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
-.foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px}
-.foot-links{display:flex; gap:24px; font-family:var(--mono); font-size:.74rem; letter-spacing:.1em; text-transform:uppercase}
-.foot-links a{color:var(--ink-soft); border-bottom:1px solid transparent}
-.foot-links a:hover{color:var(--glow); border-bottom-color:var(--glow)}
-.foot-note{font-family:var(--mono); font-size:.64rem; color:var(--ink-mute)}
+/* ── À PROPOS ────────────────────────────── */
+.about-lead {
+  font-size: 1.1rem; color: var(--encre-2);
+  max-width: 720px; line-height: 1.75;
+  margin-bottom: 48px;
+}
+.about-lead strong { color: var(--encre); }
+.values {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+}
+@media(max-width:700px) { .values { grid-template-columns: 1fr; } }
+.value {
+  background: var(--bg-card); border: 1px solid var(--line-soft);
+  padding: 28px; transition: border-color .3s;
+}
+.value:hover { border-color: var(--flux); }
+.v-num {
+  font-family: var(--mono); font-size: .68rem; color: var(--flux);
+  letter-spacing: .08em; margin-bottom: 10px;
+}
+.value h3 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; }
+.value p { font-size: .9rem; color: var(--graphite); line-height: 1.6; }
 
-/* ---------- animations d'apparition ---------- */
-.reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease}
-.reveal.in{opacity:1; transform:none}
-@media (prefers-reduced-motion: reduce){
-  .reveal{opacity:1; transform:none; transition:none}
-  .hero-status .dot{animation:none}
-  html{scroll-behavior:auto}
+/* ── PARCOURS (timeline) ─────────────────── */
+.timeline { position: relative; padding-left: 32px; }
+.timeline::before {
+  content: ''; position: absolute; left: 7px; top: 0; bottom: 0;
+  width: 2px; background: var(--line);
+}
+.xp {
+  position: relative; margin-bottom: 48px;
+  padding-bottom: 48px; border-bottom: 1px solid var(--line-soft);
+}
+.xp:last-child { margin-bottom: 0; border-bottom: none; padding-bottom: 0; }
+.xp::before {
+  content: ''; position: absolute; left: -32px; top: 6px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--flux);
+}
+.xp-date {
+  font-family: var(--mono); font-size: .72rem; color: var(--graphite);
+  letter-spacing: .06em; margin-bottom: 6px;
+}
+.xp h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 4px; }
+.xp-org { font-size: .85rem; color: var(--flux); margin-bottom: 10px; }
+.xp-desc { font-size: .9rem; color: var(--graphite); max-width: 640px; }
+.xp-deltas {
+  display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px;
+}
+.delta {
+  font-family: var(--mono); font-size: .78rem;
+  background: var(--flux-light); padding: 6px 12px;
+  border-left: 2px solid var(--flux);
+}
+.delta b { color: var(--encre); margin-right: 4px; }
+
+/* ── PROJECTS ────────────────────────────── */
+.project {
+  background: var(--bg-card); border: 1px solid var(--line-soft);
+  margin-bottom: 36px;
+  transition: border-color .3s, box-shadow .3s;
+}
+.project:hover { border-color: var(--flux); box-shadow: 0 4px 24px rgba(49,112,143,.08); }
+
+.project-ports {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 24px;
+  background: var(--flux-light);
+  font-family: var(--mono); font-size: .68rem; color: var(--flux);
+  letter-spacing: .04em;
+}
+.project-ports .in { opacity: .7; }
+.project-ports .out { font-weight: 600; }
+
+.project-head {
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+  padding: 20px 24px; border-bottom: 1px solid var(--line-soft);
+}
+.project-head .num {
+  font-family: var(--mono); color: var(--graphite); font-size: .8rem;
+}
+.project-head h3 { font-size: 1.05rem; font-weight: 600; }
+.project-head .tags {
+  margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap;
+}
+.tag {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--graphite);
+  border: 1px solid var(--line); padding: 2px 8px;
+}
+.project-body {
+  display: grid; grid-template-columns: 1.1fr .9fr; gap: 0;
+}
+@media(max-width:860px) { .project-body { grid-template-columns: 1fr; } }
+.project-text {
+  padding: 24px; border-right: 1px solid var(--line-soft);
+}
+@media(max-width:860px) { .project-text { border-right: none; border-bottom: 1px solid var(--line-soft); } }
+.project-text p { color: var(--graphite); font-size: .92rem; }
+.project-text p + p { margin-top: 10px; }
+.project-text .impact {
+  margin-top: 16px; padding: 12px 14px;
+  border-left: 3px solid var(--ambre);
+  background: rgba(201,138,45,.06);
+  font-size: .88rem; color: var(--encre-2);
+}
+.project-text .impact strong {
+  font-family: var(--mono); color: var(--encre);
+}
+.project-text .impact a { color: var(--flux); }
+.project-viz {
+  padding: 24px; display: flex; flex-direction: column;
+  gap: 16px; justify-content: center;
+}
+
+/* ── Mini-DAG (IN→PROC→OUT) ──────────────── */
+.minidag {
+  display: flex; align-items: center; gap: 0;
+  font-family: var(--mono); font-size: .65rem;
+  overflow-x: auto;
+}
+.minidag .dag-in, .minidag .dag-proc, .minidag .dag-out {
+  padding: 8px 12px; white-space: nowrap;
+}
+.minidag .dag-in {
+  background: var(--flux-light); color: var(--flux);
+  border: 1px solid var(--flux-mid);
+}
+.minidag .dag-proc {
+  background: var(--bg); color: var(--graphite);
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.minidag .dag-out {
+  background: var(--encre); color: var(--bg);
+  font-weight: 600;
+}
+.minidag .arrow {
+  padding: 0 4px; color: var(--graphite); flex-shrink: 0;
+}
+
+/* ── SVG Visualizations ──────────────────── */
+.viz-title {
+  font-family: var(--mono); font-size: .65rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--graphite);
+}
+.svg-chart { width: 100%; }
+.svg-chart text {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+  fill: var(--encre-2);
+}
+.svg-chart .bar-label { font-size: 10px; fill: var(--graphite); }
+.svg-chart .bar-value { font-weight: 700; font-size: 11px; fill: var(--encre); }
+.svg-chart .bar-fill { fill: var(--encre); }
+.svg-chart .bar-fill-light { fill: var(--flux); }
+.svg-chart .bar-fill-muted { fill: var(--graphite); }
+
+/* Mini tiles */
+.mini-tiles {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+  background: var(--line); border: 1px solid var(--line);
+}
+.mini-tiles .mt { background: var(--bg-card); padding: 14px; }
+.mt .v {
+  font-family: var(--mono); font-weight: 700; font-size: 1.15rem;
+  color: var(--encre);
+}
+.mt .v small { font-size: .6em; color: var(--graphite); }
+.mt .l { font-size: .7rem; color: var(--graphite); margin-top: 2px; }
+
+/* Ratio bar */
+.ratio-bar { border: 1px solid var(--line); background: var(--bg-card); padding: 14px; }
+.ratio-bar .rb-head {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: .68rem; color: var(--graphite);
+  margin-bottom: 6px;
+}
+.ratio-bar .track {
+  height: 12px; background: var(--line-soft); position: relative; overflow: hidden;
+}
+.ratio-bar .fill {
+  position: absolute; inset: 0; width: 0%;
+  background: linear-gradient(90deg, var(--flux), var(--encre));
+  transition: width 1.4s cubic-bezier(.2,.8,.2,1);
+}
+.ratio-bar .rb-foot {
+  font-family: var(--mono); font-size: .6rem; color: var(--graphite); margin-top: 6px;
+}
+
+/* ── MISSIONS ────────────────────────────── */
+.missions-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+}
+@media(max-width:700px) { .missions-grid { grid-template-columns: 1fr; } }
+.mission {
+  background: var(--bg-card); border: 1px solid var(--line-soft);
+  padding: 24px; transition: border-color .3s;
+}
+.mission:hover { border-color: var(--flux); }
+.m-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+.m-head h3 { font-size: .95rem; font-weight: 600; }
+.m-ctx {
+  font-family: var(--mono); font-size: .6rem; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--flux); white-space: nowrap;
+}
+.mission > p { font-size: .85rem; color: var(--graphite); }
+.m-stats {
+  display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px;
+}
+.m-stats > div {
+  font-family: var(--mono); font-size: .75rem;
+  background: var(--flux-light); padding: 5px 10px;
+}
+.m-stats b { color: var(--encre); margin-right: 4px; }
+.m-stats span { color: var(--graphite); }
+
+/* ── STACK ────────────────────────────────── */
+.stack-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+}
+@media(max-width:820px) { .stack-grid { grid-template-columns: 1fr; } }
+.stack-panel {
+  background: var(--bg-card); border: 1px solid var(--line-soft); padding: 24px;
+}
+.stack-panel h3 {
+  font-size: .8rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--graphite); margin-bottom: 18px;
+}
+.skill { margin-bottom: 14px; }
+.skill:last-child { margin-bottom: 0; }
+.s-head {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: .75rem; margin-bottom: 5px;
+}
+.s-head .ctx {
+  color: var(--graphite); font-size: .62rem; text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.s-track { height: 5px; background: var(--line-soft); }
+.s-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--flux), var(--encre));
+  transition: width 1.2s cubic-bezier(.2,.8,.2,1);
+}
+
+/* ── FOOTER ──────────────────────────────── */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 44px 0 56px; margin-top: 20px;
+}
+.foot-row {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 18px;
+}
+.foot-links {
+  display: flex; gap: 20px;
+  font-family: var(--mono); font-size: .74rem; letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.foot-links a { color: var(--graphite); text-decoration: none; }
+.foot-links a:hover { color: var(--flux); }
+.foot-note {
+  font-family: var(--mono); font-size: .62rem; color: var(--graphite);
+  margin-top: 24px;
+}
+
+/* ── ANIMATIONS ──────────────────────────── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-kicker .dot { animation: none; }
+  html { scroll-behavior: auto; }
 }
 </style>
 </head>
 <body>
 
-<!-- =============== NAV =============== -->
+<!-- ═══════════ NAV ═══════════ -->
 <header>
   <div class="wrap">
     <nav>
-      <div class="logo">BA://SUPPLY-DATA<em>_v5.0</em></div>
+      <div class="logo"><span class="dot"></span> LINEAGE://SUPPLY-DATA</div>
       <div class="nav-links">
+        <a href="#apropos">À propos</a>
+        <a href="#parcours">Parcours</a>
         <a href="#projets">Projets</a>
+        <a href="#missions">Missions</a>
         <a href="#stack">Stack</a>
         <a href="#contact">Contact</a>
       </div>
@@ -281,48 +458,146 @@ footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
   </div>
 </header>
 
-<!-- =============== HERO =============== -->
+<!-- ═══════════ HERO ═══════════ -->
 <div class="hero">
   <div class="wrap">
-    <div class="kicker reveal">Business Analyst Supply Chain &amp; Data — Retail alimentaire</div>
-    <h1 class="reveal">Je construis des systèmes qui rendent<br>les équipes radicalement plus efficaces,<br>sans ajouter de complexité.</h1>
-    <p class="tagline reveal">5 ans d'expérience data &amp; supply chain (retail alimentaire, électronique grand public, SaaS industriel). Spécialisé dans <strong>l'automatisation métier, l'IA appliquée et la fiabilisation des chaînes data</strong>.</p>
-    <div class="hero-status reveal"><span class="dot"></span> disponible · data / ia appliquée</div>
-
-    <div class="kpi-grid reveal">
-      <div class="kpi"><div class="val"><span class="count" data-target="5">0</span> <small>ans</small></div><div class="lbl">d'expérience data &amp; supply chain</div></div>
-      <div class="kpi"><div class="val"><span class="count" data-target="37.8" data-decimals="1">0</span> <small>M€</small></div><div class="lbl">de stock analysé (méthodo SLOB)</div></div>
-      <div class="kpi"><div class="val"><span class="count" data-target="159">0</span> <small>scénarios</small></div><div class="lbl">d'automatisation administrés en production</div></div>
-      <div class="kpi"><div class="val">−<span class="count" data-target="94">0</span> <small>%</small></div><div class="lbl">de temps de production sur un reporting hebdo</div></div>
+    <div class="hero-kicker reveal"><span class="dot"></span> Senior Business Analyst · Supply Chain &amp; Data · AI-augmented</div>
+    <h1 class="reveal">Je construis des systèmes qui rendent les équipes <em>radicalement plus efficaces</em>, sans ajouter de complexité.</h1>
+    <p class="lead reveal">5 ans d'expérience data &amp; supply chain — retail alimentaire, électronique grand public, SaaS industriel, logistique healthcare. Spécialisé dans l'automatisation métier, l'IA appliquée (LLM, MCP, text-to-SQL) et la fiabilisation des chaînes data.</p>
+    <div class="kpi-row reveal">
+      <div class="kpi"><div class="val"><span class="count" data-target="5">5</span> <small>ans</small></div><div class="lbl">d'expérience data &amp; supply chain</div></div>
+      <div class="kpi"><div class="val"><span class="count" data-target="37.8" data-decimals="1">37,8</span> <small>M€</small></div><div class="lbl">de stock analysé (méthodo SLOB)</div></div>
+      <div class="kpi"><div class="val"><span class="count" data-target="159">159</span> <small>scénarios</small></div><div class="lbl">d'automatisation administrés en production</div></div>
+      <div class="kpi"><div class="val">−<span class="count" data-target="94">94</span> <small>%</small></div><div class="lbl">de temps de production sur un reporting hebdo</div></div>
     </div>
   </div>
 </div>
 
-<!-- =============== BANDEAU STATS =============== -->
-<div class="statband reveal">
+<!-- ═══════════ STAT BAND ═══════════ -->
+<div class="statband">
   <div class="wrap">
-    <div class="row">
-      <div class="stat"><div class="val"><span class="count" data-target="5.4" data-decimals="1">0</span> <small>M€</small></div><div class="lbl">stock à risque identifié</div></div>
-      <div class="stat"><div class="val"><span class="count" data-target="29413" data-group="1">0</span></div><div class="lbl">lignes produit auditées</div></div>
-      <div class="stat"><div class="val"><span class="count" data-target="27625" data-group="1">0</span> <small>€</small></div><div class="lbl">de risque financier tracé</div></div>
-      <div class="stat"><div class="val"><span class="count" data-target="65">0</span> <small>vues</small></div><div class="lbl">de lineage reconstitué</div></div>
-      <div class="stat"><div class="val"><span class="count" data-target="9">0</span> <small>sources</small></div><div class="lbl">BI agrégées automatiquement</div></div>
-      <div class="stat"><div class="val"><span class="count" data-target="905">0</span><small>/990</small></div><div class="lbl">TOEIC — anglais C1</div></div>
+    <div class="row reveal">
+      <div class="stat"><div class="val"><span class="count" data-target="5.4" data-decimals="1">5,4</span> <small>M€</small></div><div class="lbl">stock à risque identifié</div></div>
+      <div class="stat"><div class="val"><span class="count" data-target="29413" data-group="1">29 413</span></div><div class="lbl">lignes produit auditées</div></div>
+      <div class="stat"><div class="val"><span class="count" data-target="27625" data-group="1">27 625</span> <small>€</small></div><div class="lbl">de risque financier tracé</div></div>
+      <div class="stat"><div class="val"><span class="count" data-target="65">65</span> <small>vues</small></div><div class="lbl">de lineage reconstitué</div></div>
+      <div class="stat"><div class="val"><span class="count" data-target="88">88</span></div><div class="lbl">désynchronisations référentiel détectées</div></div>
+      <div class="stat"><div class="val"><span class="count" data-target="905">905</span><small>/990</small></div><div class="lbl">TOEIC — anglais C1</div></div>
     </div>
   </div>
 </div>
 
-<!-- =============== PROJETS =============== -->
-<section id="projets">
+<!-- ═══════════ À PROPOS ═══════════ -->
+<section id="apropos">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="kicker">projets</div>
-      <h2>Cinq systèmes, un fil rouge : rendre la donnée actionnable</h2>
-      <p>De l'assistant IA text-to-SQL au diagnostic d'un moteur de calcul en production — chaque projet part d'un irritant métier réel et se termine par un impact mesuré.</p>
+    <div class="node-head reveal">
+      <div class="node-label"><span class="dot"></span> NODE : À PROPOS</div>
+      <h2>Avant les systèmes, une façon de travailler</h2>
+    </div>
+    <p class="about-lead reveal">
+      J'ai commencé sur le quai d'un entrepôt, pas derrière un dashboard. C'est probablement ce qui définit
+      le mieux ma manière de faire de la data : <strong>je ne modélise jamais un flux que je n'ai pas vu
+      fonctionner</strong>. Depuis, chaque poste a ajouté une couche — les opérations, l'ERP, la BI,
+      l'automatisation, l'IA — mais la logique n'a pas changé : comprendre le terrain d'abord, outiller ensuite.
+    </p>
+    <div class="values">
+      <div class="value reveal">
+        <div class="v-num">principe_01</div>
+        <h3>Le terrain avant les slides</h3>
+        <p>Un chiffre qui contredit l'expérience des équipes mérite une investigation, pas une présentation. Les meilleurs modèles que j'ai construits sont nés de conversations avec les gens qui vivent le flux au quotidien.</p>
+      </div>
+      <div class="value reveal">
+        <div class="v-num">principe_02</div>
+        <h3>La sobriété est une fonctionnalité</h3>
+        <p>Je construis des systèmes que les équipes peuvent s'approprier sans moi : moins de dépendances, moins de couches, moins de magie. Si un script de 50 lignes suffit, il n'y aura pas de plateforme.</p>
+      </div>
+      <div class="value reveal">
+        <div class="v-num">principe_03</div>
+        <h3>Dire ce que les chiffres disent</h3>
+        <p>Quantifier un risque, c'est aussi l'assumer devant la direction — y compris quand le résultat dérange. Un indicateur faux et rassurant coûte plus cher qu'un indicateur juste et inconfortable.</p>
+      </div>
+      <div class="value reveal">
+        <div class="v-num">principe_04</div>
+        <h3>Documenter, c'est transmettre</h3>
+        <p>Un système que je suis seul à comprendre est un échec, pas un accomplissement. La documentation n'est pas la fin du projet : c'est ce qui lui permet de me survivre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PARCOURS ═══════════ -->
+<section id="parcours" style="padding-top:0">
+  <div class="wrap">
+    <div class="node-head reveal">
+      <div class="node-label"><span class="dot"></span> NODE : PARCOURS</div>
+      <h2>Du terrain logistique à l'IA appliquée</h2>
+      <p class="sub">Une trajectoire construite du sol de l'entrepôt vers la donnée : chaque poste ajoute une couche — opérations, ERP, BI, automatisation, LLM.</p>
+    </div>
+    <div class="timeline">
+      <div class="xp reveal">
+        <div class="xp-date">oct. 2025 — présent</div>
+        <h3>Senior Business Analyst — Supply Chain Performance</h3>
+        <div class="xp-org">Franprix (Groupe Casino) · retail alimentaire</div>
+        <p class="xp-desc">Fiabilisation et outillage de la chaîne data supply : automatisation du reporting, administration du parc Make, documentation du datawarehouse Snowflake, intégration LLM (POC MCP, text-to-SQL) et investigations d'anomalies critiques.</p>
+        <div class="xp-deltas">
+          <div class="delta"><b>−94 %</b> reporting hebdo</div>
+          <div class="delta"><b>37,8 M€</b> stock analysé (SLOB)</div>
+          <div class="delta"><b>159</b> scénarios en prod</div>
+        </div>
+      </div>
+      <div class="xp reveal">
+        <div class="xp-date">oct. 2024 — oct. 2025</div>
+        <h3>Supply Chain Analyst</h3>
+        <div class="xp-org">Samsung Electronics · électronique grand public</div>
+        <p class="xp-desc">Pilotage et amélioration continue sur ~15 M€ de flux hebdomadaires, coordination des équipes européennes et du siège coréen. Dashboards Python / VBA et optimisation des KPIs supply sur SAP ERP.</p>
+        <div class="xp-deltas">
+          <div class="delta"><b>−20 %</b> écarts de stock</div>
+          <div class="delta"><b>−50 %</b> temps de reporting</div>
+          <div class="delta"><b>15 M€</b> flux hebdo pilotés</div>
+        </div>
+      </div>
+      <div class="xp reveal">
+        <div class="xp-date">sept. 2023 — sept. 2024</div>
+        <h3>Chef de Projet MOA — Déploiement GPAO</h3>
+        <div class="xp-org">Oplit (éditeur SaaS) · industrie</div>
+        <p class="xp-desc">Déploiement d'une solution de planification de production chez 12 clients stratégiques (aéronautique, défense, luxe, sidérurgie), avec intégrations API inter-entreprises et optimisation des processus de planification.</p>
+        <div class="xp-deltas">
+          <div class="delta"><b>12</b> clients déployés</div>
+          <div class="delta"><b>−15 %</b> coûts process</div>
+          <div class="delta"><b>−25 %</b> délais</div>
+        </div>
+      </div>
+      <div class="xp reveal">
+        <div class="xp-date">sept. 2020 — sept. 2023</div>
+        <h3>COO Adjoint — Logistique Healthcare</h3>
+        <div class="xp-org">Arvato (BU Healthcare) · logistique santé</div>
+        <p class="xp-desc">Management opérationnel de 250 collaborateurs, certifications ISO 9001 &amp; 13485 obtenues en 6 mois, industrialisation du reporting Power BI, déploiement de drones d'inventaire et optimisation des flux convoyeurs.</p>
+        <div class="xp-deltas">
+          <div class="delta"><b>250</b> collaborateurs</div>
+          <div class="delta"><b>−18 %</b> coûts opérationnels</div>
+          <div class="delta"><b>−70 %</b> temps de reporting</div>
+          <div class="delta"><b>+12 %</b> débit convoyeurs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PROJETS ═══════════ -->
+<section id="projets" style="padding-top:0">
+  <div class="wrap">
+    <div class="node-head reveal">
+      <div class="node-label"><span class="dot"></span> NODE : PROJETS</div>
+      <h2>Six systèmes, un fil rouge : rendre la donnée actionnable</h2>
+      <p class="sub">Chaque projet est lu comme un nœud de lineage : ce qui entre, ce qui se transforme, ce qui sort — avec l'impact mesuré en sortie.</p>
     </div>
 
-    <!-- ---------- PROJET 1 : SupplyChainGPT ---------- -->
+    <!-- PROJET 1 -->
     <article class="project reveal">
+      <div class="project-ports">
+        <span class="in">IN: Question métier FR</span>
+        <span class="out">OUT: Résultat + SQL + visualisation</span>
+      </div>
       <div class="project-head">
         <span class="num">[01]</span>
         <h3>SupplyChainGPT — assistant text-to-SQL</h3>
@@ -330,29 +605,37 @@ footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
       </div>
       <div class="project-body">
         <div class="project-text">
-          <p>Application qui transforme une question métier en français — <em>« quels fournisseurs ont le plus de ruptures ce mois&nbsp;? »</em> — en requête SQL, l'exécute et affiche le résultat, le SQL généré et une visualisation automatique.</p>
+          <p>Application qui transforme une question métier en français — « quels fournisseurs ont le plus de ruptures ce mois ? » — en requête SQL, l'exécute et affiche le résultat, le SQL généré et une visualisation automatique.</p>
           <p>Base de démonstration réaliste (6 tables, 90 jours de commandes et de positions de stock), suite de tests de régression sur 10 questions métier, et validation SQL en lecture seule avant toute exécution.</p>
-          <div class="impact"><strong>Profil hybride rare :</strong> IA générative + SQL + expertise du domaine supply chain. Projet portfolio open source.</div>
+          <div class="impact"><strong>Impact — </strong>Profil hybride rare : IA générative + SQL + expertise du domaine supply chain. Open source : <a href="https://github.com/casanostro/supply-chain-gpt" target="_blank" rel="noopener noreferrer">github.com/casanostro/supply-chain-gpt</a></div>
         </div>
         <div class="project-viz">
-          <div class="viz-title">flux de traitement</div>
-          <div class="pipeline">
-            <div class="step"><b>Question FR</b>langage naturel</div>
-            <div class="arrow">›</div>
-            <div class="step"><b>LLM</b>génération SQL</div>
-            <div class="arrow">›</div>
-            <div class="step"><b>Garde-fou</b>lecture seule</div>
-            <div class="arrow">›</div>
-            <div class="step"><b>Résultat</b>data + viz</div>
+          <div class="minidag">
+            <div class="dag-in">Question métier FR</div>
+            <div class="arrow">→</div>
+            <div class="dag-proc">LLM → SQL validé lecture seule</div>
+            <div class="arrow">→</div>
+            <div class="dag-out">Résultat + SQL + visualisation</div>
           </div>
           <div class="viz-title">volumétrie de la base de démo</div>
-          <div class="chart-box h180"><canvas id="chartP1"></canvas></div>
+          <svg class="svg-chart" viewBox="0 0 380 170" aria-label="Volumétrie base de démo">
+            <text class="bar-label" x="0" y="18">Produits</text><rect class="bar-fill" x="95" y="8" width="210" height="14" rx="2"/><text class="bar-value" x="310" y="19">500</text>
+            <text class="bar-label" x="0" y="42">Jours d'historique</text><rect class="bar-fill-light" x="95" y="32" width="160" height="14" rx="2"/><text class="bar-value" x="260" y="43">90</text>
+            <text class="bar-label" x="0" y="66">Fournisseurs</text><rect class="bar-fill-light" x="95" y="56" width="120" height="14" rx="2"/><text class="bar-value" x="220" y="67">25</text>
+            <text class="bar-label" x="0" y="90">Entrepôts</text><rect class="bar-fill-muted" x="95" y="80" width="60" height="14" rx="2"/><text class="bar-value" x="160" y="91">6</text>
+            <text class="bar-label" x="0" y="114">Tables</text><rect class="bar-fill-muted" x="95" y="104" width="60" height="14" rx="2"/><text class="bar-value" x="160" y="115">6</text>
+            <text class="bar-label" x="0" y="138">Tests métier</text><rect class="bar-fill-muted" x="95" y="128" width="75" height="14" rx="2"/><text class="bar-value" x="175" y="139">10</text>
+          </svg>
         </div>
       </div>
     </article>
 
-    <!-- ---------- PROJET 2 : plateforme Make ---------- -->
+    <!-- PROJET 2 -->
     <article class="project reveal">
+      <div class="project-ports">
+        <span class="in">IN: 159 scénarios · 6 domaines métier</span>
+        <span class="out">OUT: 27 625 € de risque tracé et priorisé</span>
+      </div>
       <div class="project-head">
         <span class="num">[02]</span>
         <h3>Plateforme d'automatisation métier</h3>
@@ -360,34 +643,35 @@ footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
       </div>
       <div class="project-body">
         <div class="project-text">
-          <p>Administration d'un parc de <strong>159 scénarios d'automatisation</strong> couvrant 6 domaines métier : gestes commerciaux, alertes qualité, base des manquants, et autres flux critiques du quotidien des équipes.</p>
+          <p>Administration d'un parc de 159 scénarios d'automatisation couvrant 6 domaines métier : gestes commerciaux, alertes qualité, base des manquants, et autres flux critiques du quotidien des équipes.</p>
           <p>Diagnostic complet du parc après une migration d'API : identification systématique des exécutions en échec (dead letter queue), traçage du risque financier associé et priorisation des reprises.</p>
-          <div class="impact"><strong>5 376 exécutions en échec</strong> identifiées et <strong>27 625 €</strong> de risque financier tracé et priorisé.</div>
+          <div class="impact"><strong>Impact — </strong>5 376 exécutions en échec identifiées et 27 625 € de risque financier tracé et priorisé.</div>
         </div>
         <div class="project-viz">
+          <div class="minidag">
+            <div class="dag-in">159 scénarios · 6 domaines métier</div>
+            <div class="arrow">→</div>
+            <div class="dag-proc">Diagnostic DLQ post-migration API</div>
+            <div class="arrow">→</div>
+            <div class="dag-out">27 625 € de risque tracé et priorisé</div>
+          </div>
           <div class="viz-title">le parc en chiffres</div>
           <div class="mini-tiles">
-            <div class="mt"><div class="v"><span class="count" data-target="159">0</span></div><div class="l">scénarios en production</div></div>
-            <div class="mt"><div class="v"><span class="count" data-target="6">0</span></div><div class="l">domaines métier couverts</div></div>
-            <div class="mt"><div class="v"><span class="count" data-target="5376" data-group="1">0</span></div><div class="l">exécutions en échec (DLQ) identifiées</div></div>
-            <div class="mt"><div class="v"><span class="count" data-target="27625" data-group="1">0</span> <small>€</small></div><div class="l">de risque financier tracé</div></div>
-          </div>
-          <div class="viz-title">démarche de fiabilisation</div>
-          <div class="pipeline">
-            <div class="step"><b>Inventaire</b>159 scénarios</div>
-            <div class="arrow">›</div>
-            <div class="step"><b>Diagnostic</b>échecs DLQ</div>
-            <div class="arrow">›</div>
-            <div class="step"><b>Chiffrage</b>risque €</div>
-            <div class="arrow">›</div>
-            <div class="step"><b>Reprise</b>priorisée</div>
+            <div class="mt"><div class="v"><span class="count" data-target="159">159</span></div><div class="l">scénarios en production</div></div>
+            <div class="mt"><div class="v"><span class="count" data-target="6">6</span></div><div class="l">domaines métier couverts</div></div>
+            <div class="mt"><div class="v"><span class="count" data-target="5376" data-group="1">5 376</span></div><div class="l">exécutions en échec (DLQ) identifiées</div></div>
+            <div class="mt"><div class="v"><span class="count" data-target="27625" data-group="1">27 625</span> <small>€</small></div><div class="l">de risque financier tracé</div></div>
           </div>
         </div>
       </div>
     </article>
 
-    <!-- ---------- PROJET 3 : newsletter KPI ---------- -->
+    <!-- PROJET 3 -->
     <article class="project reveal">
+      <div class="project-ports">
+        <span class="in">IN: 9 sources BI</span>
+        <span class="out">OUT: 50+ destinataires · 15 min / édition</span>
+      </div>
       <div class="project-head">
         <span class="num">[03]</span>
         <h3>Newsletter KPI automatisée</h3>
@@ -395,23 +679,38 @@ footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
       </div>
       <div class="project-body">
         <div class="project-text">
-          <p>Industrialisation d'une newsletter de pilotage hebdomadaire&nbsp;: agrégation automatique de <strong>9 sources BI / MicroStrategy</strong>, mise en forme et diffusion à plus de 50 destinataires, avec un script complémentaire d'injection de commentaires éditoriaux.</p>
+          <p>Industrialisation d'une newsletter de pilotage hebdomadaire : agrégation automatique de 9 sources BI / MicroStrategy, mise en forme et diffusion à plus de 50 destinataires, avec un script complémentaire d'injection de commentaires éditoriaux.</p>
           <p>Le cas d'école de l'automatisation à ROI immédiat : une tâche récurrente, chronophage et sans valeur ajoutée manuelle, transformée en processus fiable de 15 minutes.</p>
-          <div class="impact"><strong>4 h → 15 min</strong> par édition, soit <strong>~94 %</strong> de temps de production gagné, chaque semaine.</div>
+          <div class="impact"><strong>Impact — </strong>4 h → 15 min par édition, soit ~94 % de temps de production gagné, chaque semaine.</div>
         </div>
         <div class="project-viz">
-          <div class="viz-title">temps de production par édition (minutes)</div>
-          <div class="chart-box h220"><canvas id="chartP3"></canvas></div>
-          <div class="mini-tiles">
-            <div class="mt"><div class="v"><span class="count" data-target="9">0</span></div><div class="l">sources BI agrégées</div></div>
-            <div class="mt"><div class="v"><span class="count" data-target="50">0</span><small>+</small></div><div class="l">destinataires hebdo</div></div>
+          <div class="minidag">
+            <div class="dag-in">9 sources BI</div>
+            <div class="arrow">→</div>
+            <div class="dag-proc">Agrégation + mise en forme Python</div>
+            <div class="arrow">→</div>
+            <div class="dag-out">50+ destinataires · 15 min / édition</div>
           </div>
+          <div class="viz-title">temps de production par édition</div>
+          <svg class="svg-chart" viewBox="0 0 380 110" aria-label="Avant/après temps de production">
+            <text class="bar-label" x="60" y="28" text-anchor="end">Avant</text>
+            <rect class="bar-fill-muted" x="68" y="14" width="260" height="22" rx="2"/>
+            <text class="bar-value" x="335" y="30">240 min</text>
+            <text class="bar-label" x="60" y="68" text-anchor="end">Après</text>
+            <rect class="bar-fill-light" x="68" y="54" width="16" height="22" rx="2"/>
+            <text class="bar-value" x="90" y="70">15 min</text>
+            <text class="bar-label" x="190" y="100" text-anchor="middle" style="font-size:10px;fill:var(--flux)">−94 %</text>
+          </svg>
         </div>
       </div>
     </article>
 
-    <!-- ---------- PROJET 4 : datawarehouse Snowflake ---------- -->
+    <!-- PROJET 4 -->
     <article class="project reveal">
+      <div class="project-ports">
+        <span class="in">IN: 3 bases non cartographiées</span>
+        <span class="out">OUT: Référentiel · source de vérité</span>
+      </div>
       <div class="project-head">
         <span class="num">[04]</span>
         <h3>Architecture datawarehouse documentée de zéro</h3>
@@ -419,23 +718,38 @@ footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
       </div>
       <div class="project-body">
         <div class="project-text">
-          <p>Reverse-engineering et documentation complète d'un entrepôt de données supply chain jusque-là non cartographié : exploration systématique des bases, reconstruction du lineage réel des vues, et rédaction d'un référentiel technique devenu <strong>la source de vérité</strong> de la chaîne data.</p>
+          <p>Reverse-engineering et documentation complète d'un entrepôt de données supply chain jusque-là non cartographié : exploration systématique des bases, reconstruction du lineage réel des vues, et rédaction d'un référentiel technique devenu la source de vérité de la chaîne data.</p>
           <p>La documentation existante ne mentionnait que 4 schémas — l'exploration en a révélé 24, répartis sur 3 bases, avec le lineage d'environ 65 vues reconstitué.</p>
-          <div class="impact"><strong>Référentiel de 314 lignes</strong> + 3 fichiers de référence. Réduction durable du risque de dépendance aux savoirs individuels.</div>
+          <div class="impact"><strong>Impact — </strong>Référentiel de 314 lignes + 3 fichiers de référence. Réduction durable du risque de dépendance aux savoirs individuels.</div>
         </div>
         <div class="project-viz">
-          <div class="viz-title">périmètre documenté : avant / après</div>
-          <div class="chart-box h220"><canvas id="chartP4"></canvas></div>
-          <div class="mini-tiles">
-            <div class="mt"><div class="v"><span class="count" data-target="65">0</span><small>~</small></div><div class="l">vues — lineage reconstitué</div></div>
-            <div class="mt"><div class="v"><span class="count" data-target="314">0</span></div><div class="l">lignes de référentiel technique</div></div>
+          <div class="minidag">
+            <div class="dag-in">3 bases non cartographiées</div>
+            <div class="arrow">→</div>
+            <div class="dag-proc">Reverse-engineering + lineage parser</div>
+            <div class="arrow">→</div>
+            <div class="dag-out">Référentiel · source de vérité</div>
           </div>
+          <div class="viz-title">périmètre documenté : avant / après</div>
+          <svg class="svg-chart" viewBox="0 0 380 110" aria-label="Avant/après schémas documentés">
+            <text class="bar-label" x="90" y="28" text-anchor="end">Doc existante</text>
+            <rect class="bar-fill-muted" x="98" y="14" width="40" height="22" rx="2"/>
+            <text class="bar-value" x="144" y="30">4 schémas</text>
+            <text class="bar-label" x="90" y="68" text-anchor="end">Cartographie</text>
+            <rect class="bar-fill" x="98" y="54" width="240" height="22" rx="2"/>
+            <text class="bar-value" x="344" y="70">24 schémas</text>
+            <text class="bar-label" x="190" y="100" text-anchor="middle" style="font-size:10px;fill:var(--flux)">×6</text>
+          </svg>
         </div>
       </div>
     </article>
 
-    <!-- ---------- PROJET 5 : investigation bug ---------- -->
+    <!-- PROJET 5 -->
     <article class="project reveal">
+      <div class="project-ports">
+        <span class="in">IN: Indicateur de service faussé</span>
+        <span class="out">OUT: Table gelée 2022 · correctif documenté</span>
+      </div>
       <div class="project-head">
         <span class="num">[05]</span>
         <h3>Investigation d'un bug de calcul critique</h3>
@@ -445,14 +759,28 @@ footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
         <div class="project-text">
           <p>Diagnostic de bout en bout d'une anomalie silencieuse dans un moteur de simulation de commandes, qui faussait un indicateur de service publié en reporting sans qu'aucune alerte ne se déclenche.</p>
           <p>Cause racine confirmée : une table de secours gelée depuis juillet 2022 (~3,6 M de lignes historiques figées). 83 à 85 % des lignes simulées basculaient silencieusement sur ce fallback obsolète.</p>
-          <div class="impact"><strong>0,53 %</strong> du volume attendu réellement généré (54 colis vs ~10 244). Impact quantifié, correctif proposé et documenté pour l'équipe technique.</div>
+          <div class="impact"><strong>Impact — </strong>0,53 % du volume attendu réellement généré (54 colis vs ~10 244). Impact quantifié, correctif proposé et documenté.</div>
         </div>
         <div class="project-viz">
+          <div class="minidag">
+            <div class="dag-in">Indicateur de service faussé</div>
+            <div class="arrow">→</div>
+            <div class="dag-proc">Remontée symptôme → cause racine</div>
+            <div class="arrow">→</div>
+            <div class="dag-out">Table gelée 2022 · correctif documenté</div>
+          </div>
           <div class="viz-title">volume simulé : attendu vs généré (colis)</div>
-          <div class="chart-box h150"><canvas id="chartP5"></canvas></div>
+          <svg class="svg-chart" viewBox="0 0 380 80" aria-label="Volume attendu vs généré">
+            <text class="bar-label" x="90" y="22" text-anchor="end">Attendu</text>
+            <rect class="bar-fill-muted" x="98" y="8" width="220" height="20" rx="2"/>
+            <text class="bar-value" x="324" y="23">10 244</text>
+            <text class="bar-label" x="90" y="58" text-anchor="end">Généré</text>
+            <rect class="bar-fill" x="98" y="44" width="3" height="20" rx="2"/>
+            <text class="bar-value" x="108" y="59">54</text>
+          </svg>
           <div class="viz-title">part des lignes basculant sur le fallback gelé</div>
           <div class="ratio-bar">
-            <div class="rb-head"><span>lignes simulées</span><span class="mono" id="fallbackPct">0 %</span></div>
+            <div class="rb-head"><span>lignes simulées</span><span class="mono" id="fallbackPct">83–85 %</span></div>
             <div class="track"><div class="fill" id="fallbackFill" data-width="84"></div></div>
             <div class="rb-foot">table de secours figée depuis 07/2022 · ~3,6 M lignes historiques</div>
           </div>
@@ -460,39 +788,121 @@ footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
       </div>
     </article>
 
+    <!-- PROJET 6 -->
+    <article class="project reveal">
+      <div class="project-ports">
+        <span class="in">IN: Question métier NL</span>
+        <span class="out">OUT: Réponse sourcée depuis le DWH</span>
+      </div>
+      <div class="project-head">
+        <span class="num">[06]</span>
+        <h3>POC MCP — interroger le datawarehouse en langage naturel</h3>
+        <div class="tags"><span class="tag">MCP</span><span class="tag">Claude API</span><span class="tag">Snowflake</span><span class="tag">LLM agents</span></div>
+      </div>
+      <div class="project-body">
+        <div class="project-text">
+          <p>Preuve de concept d'un connecteur MCP (Model Context Protocol) entre un LLM et l'entrepôt de données Snowflake : les équipes posent leurs questions en langage naturel, le modèle explore le schéma, génère la requête et répond avec ses sources.</p>
+          <p>Prolongement direct de la documentation du datawarehouse (projet 04) : le référentiel technique construit à la main devient le contexte structuré qui rend le LLM fiable sur un entrepôt réel — accès en lecture seule, périmètre de schémas contrôlé.</p>
+          <div class="impact"><strong>Impact — </strong>Du reverse-engineering au self-service : la cartographie d'hier sert de garde-fou à l'IA d'aujourd'hui.</div>
+        </div>
+        <div class="project-viz">
+          <div class="minidag">
+            <div class="dag-in">Question métier NL</div>
+            <div class="arrow">→</div>
+            <div class="dag-proc">Claude API × serveur MCP lecture seule</div>
+            <div class="arrow">→</div>
+            <div class="dag-out">Réponse sourcée depuis le DWH</div>
+          </div>
+          <div class="viz-title">ce que le MCP expose au LLM</div>
+          <div class="mini-tiles">
+            <div class="mt"><div class="v"><span class="count" data-target="24">24</span></div><div class="l">schémas cartographiés en contexte</div></div>
+            <div class="mt"><div class="v">~<span class="count" data-target="65">65</span></div><div class="l">vues au lineage documenté</div></div>
+          </div>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 
-<!-- =============== STACK =============== -->
+<!-- ═══════════ MISSIONS ═══════════ -->
+<section id="missions" style="padding-top:0">
+  <div class="wrap">
+    <div class="node-head reveal">
+      <div class="node-label"><span class="dot"></span> NODE : MISSIONS COMPLÉMENTAIRES</div>
+      <h2>Le reste du terrain de jeu</h2>
+    </div>
+    <div class="missions-grid">
+      <div class="mission reveal">
+        <div class="m-head"><h3>Audit croisé du référentiel produit</h3><span class="m-ctx">data quality</span></div>
+        <p>Croisement systématique de trois systèmes (PIM, gestion commerciale, plateforme e-commerce) pour mesurer la cohérence du référentiel produit et prioriser les corrections.</p>
+        <div class="m-stats">
+          <div><b>29 413</b><span>lignes auditées</span></div>
+          <div><b>49 %</b><span>d'anomalies détectées</span></div>
+          <div><b>88</b><span>désynchronisations</span></div>
+        </div>
+      </div>
+      <div class="mission reveal">
+        <div class="m-head"><h3>Investigation taux de service — grands comptes</h3><span class="m-ctx">pilotage DG</span></div>
+        <p>Analyse contradictoire des taux de service de fournisseurs internationaux majeurs, sous le regard de la direction générale : cross-validation des données amont/aval et résolution des anomalies de mesure côté fournisseurs.</p>
+        <div class="m-stats">
+          <div><b>2</b><span>comptes stratégiques</span></div>
+          <div><b>amont / aval</b><span>cross-validation</span></div>
+        </div>
+      </div>
+      <div class="mission reveal">
+        <div class="m-head"><h3>Dashboards &amp; prévisions de ventes</h3><span class="m-ctx">samsung</span></div>
+        <p>Industrialisation du reporting supply en Python / VBA et amélioration des prévisions de ventes, en coordination entre les équipes européennes et le siège.</p>
+        <div class="m-stats">
+          <div><b>−50 %</b><span>temps de reporting</span></div>
+          <div><b>15 M€</b><span>flux hebdo suivis</span></div>
+        </div>
+      </div>
+      <div class="mission reveal">
+        <div class="m-head"><h3>Certifications ISO en logistique santé</h3><span class="m-ctx">arvato</span></div>
+        <p>Pilotage opérationnel de l'obtention des certifications ISO 9001 &amp; 13485 sur un site healthcare, en parallèle du management de 250 collaborateurs.</p>
+        <div class="m-stats">
+          <div><b>6 mois</b><span>pour la double certification</span></div>
+          <div><b>−18 %</b><span>coûts opérationnels</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STACK ═══════════ -->
 <section id="stack" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="kicker">stack technique</div>
+    <div class="node-head reveal">
+      <div class="node-label"><span class="dot"></span> NODE : STACK</div>
       <h2>Outils par terrain de jeu</h2>
-      <p>Chaque barre indique le contexte d'usage réel — pas une auto-évaluation abstraite, mais où l'outil a servi en production.</p>
+      <p class="sub">Chaque barre indique le contexte d'usage réel — pas une auto-évaluation abstraite, mais où l'outil a servi en production.</p>
     </div>
     <div class="stack-grid">
       <div class="stack-panel reveal">
-        <h3>Data &amp; entrepôts</h3>
+        <h3>▸ Data &amp; BI</h3>
         <div class="skill"><div class="s-head"><span>SQL</span><span class="ctx">quotidien · 5 ans</span></div><div class="s-track"><div class="s-fill" data-width="96"></div></div></div>
-        <div class="skill"><div class="s-head"><span>Snowflake</span><span class="ctx">DWH · lineage · doc</span></div><div class="s-track"><div class="s-fill" data-width="82"></div></div></div>
-        <div class="skill"><div class="s-head"><span>Python</span><span class="ctx">automatisation · analyse</span></div><div class="s-track"><div class="s-fill" data-width="78"></div></div></div>
-      </div>
-      <div class="stack-panel reveal">
-        <h3>BI &amp; restitution</h3>
+        <div class="skill"><div class="s-head"><span>Snowflake</span><span class="ctx">DWH · lineage · doc</span></div><div class="s-track"><div class="s-fill" data-width="84"></div></div></div>
         <div class="skill"><div class="s-head"><span>MicroStrategy</span><span class="ctx">reporting production</span></div><div class="s-track"><div class="s-fill" data-width="85"></div></div></div>
-        <div class="skill"><div class="s-head"><span>Tableau</span><span class="ctx">dashboards</span></div><div class="s-track"><div class="s-fill" data-width="68"></div></div></div>
-        <div class="skill"><div class="s-head"><span>Power BI</span><span class="ctx">dashboards</span></div><div class="s-track"><div class="s-fill" data-width="64"></div></div></div>
+        <div class="skill"><div class="s-head"><span>Tableau / Power BI</span><span class="ctx">dashboards</span></div><div class="s-track"><div class="s-fill" data-width="68"></div></div></div>
+        <div class="skill"><div class="s-head"><span>Excel / VBA</span><span class="ctx">reprise d'existant</span></div><div class="s-track"><div class="s-fill" data-width="72"></div></div></div>
       </div>
       <div class="stack-panel reveal">
-        <h3>Automatisation &amp; IA</h3>
+        <h3>▸ IA &amp; LLM</h3>
+        <div class="skill"><div class="s-head"><span>Claude API</span><span class="ctx">text-to-SQL · POC MCP</span></div><div class="s-track"><div class="s-fill" data-width="82"></div></div></div>
+        <div class="skill"><div class="s-head"><span>MCP / agents LLM</span><span class="ctx">connecteur DWH</span></div><div class="s-track"><div class="s-fill" data-width="74"></div></div></div>
+        <div class="skill"><div class="s-head"><span>Prompt engineering</span><span class="ctx">vocabulaire métier FR</span></div><div class="s-track"><div class="s-fill" data-width="80"></div></div></div>
+      </div>
+      <div class="stack-panel reveal">
+        <h3>▸ Automatisation &amp; intégration</h3>
+        <div class="skill"><div class="s-head"><span>Python / pandas</span><span class="ctx">pipelines · analyses</span></div><div class="s-track"><div class="s-fill" data-width="80"></div></div></div>
         <div class="skill"><div class="s-head"><span>Make</span><span class="ctx">159 scénarios en prod</span></div><div class="s-track"><div class="s-fill" data-width="92"></div></div></div>
-        <div class="skill"><div class="s-head"><span>Claude API / LLM</span><span class="ctx">text-to-SQL · intégration</span></div><div class="s-track"><div class="s-fill" data-width="80"></div></div></div>
+        <div class="skill"><div class="s-head"><span>API REST / webhooks</span><span class="ctx">intégrations inter-SI</span></div><div class="s-track"><div class="s-fill" data-width="78"></div></div></div>
         <div class="skill"><div class="s-head"><span>Notion API</span><span class="ctx">outillage interne</span></div><div class="s-track"><div class="s-fill" data-width="62"></div></div></div>
       </div>
       <div class="stack-panel reveal">
-        <h3>Héritage &amp; bureautique</h3>
-        <div class="skill"><div class="s-head"><span>VBA</span><span class="ctx">reprise d'existant</span></div><div class="s-track"><div class="s-fill" data-width="58"></div></div></div>
+        <h3>▸ ERP, référentiels &amp; langues</h3>
+        <div class="skill"><div class="s-head"><span>SAP ERP</span><span class="ctx">flux · stocks</span></div><div class="s-track"><div class="s-fill" data-width="70"></div></div></div>
+        <div class="skill"><div class="s-head"><span>PIM / MDM / datahub</span><span class="ctx">audit référentiel</span></div><div class="s-track"><div class="s-fill" data-width="66"></div></div></div>
         <div class="skill"><div class="s-head"><span>Anglais</span><span class="ctx">C1 · TOEIC 905/990</span></div><div class="s-track"><div class="s-fill" data-width="90"></div></div></div>
         <div class="skill"><div class="s-head"><span>Espagnol</span><span class="ctx">C1</span></div><div class="s-track"><div class="s-fill" data-width="85"></div></div></div>
       </div>
@@ -500,30 +910,26 @@ footer{border-top:1px solid var(--line); padding:44px 0 60px; margin-top:40px}
   </div>
 </section>
 
-<!-- =============== FOOTER =============== -->
+<!-- ═══════════ FOOTER ═══════════ -->
 <footer id="contact">
   <div class="wrap">
     <div class="foot-row reveal">
       <div>
-        <div class="kicker">contact</div>
-        <div class="mono" style="margin-top:8px; font-size:.85rem">Business Analyst Supply Chain &amp; Data</div>
+        <div class="node-label"><span class="dot"></span> CONTACT</div>
+        <div style="font-family:var(--mono); margin-top:8px; font-size:.85rem; color:var(--graphite)">Business Analyst Supply Chain &amp; Data</div>
       </div>
       <div class="foot-links">
-        <!-- Remplacer les # par vos vrais liens -->
-        <a href="#" rel="noopener">GitHub</a>
-        <a href="#" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/casanostro" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/adrien-tripon" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       </div>
     </div>
-    <div class="foot-note" style="margin-top:28px">// site statique · aucun tracking · chiffres agrégés et anonymisés · 2026</div>
+    <div class="foot-note">// site statique · aucun tracking · chiffres agrégés et anonymisés · 2026</div>
   </div>
 </footer>
 
 <script>
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ============================================================
-   1. Compteurs animés
-   ============================================================ */
 const fmtFR = (v, dec, group) => group
   ? Math.round(v).toLocaleString('fr-FR')
   : v.toFixed(dec).replace('.', ',');
@@ -538,183 +944,12 @@ function animateCounter(el) {
   const dur = 1400, t0 = performance.now();
   (function tick(now) {
     const p = Math.min((now - t0) / dur, 1);
-    const eased = 1 - Math.pow(1 - p, 3); // ease-out cubique
+    const eased = 1 - Math.pow(1 - p, 3);
     el.textContent = fmtFR(target * eased, dec, group);
     if (p < 1) requestAnimationFrame(tick);
   })(t0);
 }
 
-/* Gauge fallback (projet 5) : synchronise le % affiché avec la barre */
-(function () {
-  const fill = document.getElementById('fallbackFill');
-  const label = document.getElementById('fallbackPct');
-  if (!fill || !label) return;
-  new IntersectionObserver((ents, obs) => {
-    if (!ents[0].isIntersecting) return;
-    obs.disconnect();
-    label.textContent = '83–85 %';
-  }, { threshold: 0.4 }).observe(fill);
-})();
-
-/* ============================================================
-   2. Charts — thème monochrome global
-   Palette séries validée : #f5f5f0 / #b0b0aa / #6e6e66
-   Tout le bloc est neutralisé proprement si le CDN Chart.js
-   est indisponible (le reste de la page fonctionne sans lui).
-   ============================================================ */
-const hasChart = typeof Chart !== 'undefined';
-const C = {
-  s1: '#f5f5f0', s2: '#b0b0aa', s3: '#6e6e66',
-  grid: 'rgba(245,245,240,.07)',
-  ink: '#a8a8a2', inkMute: '#6e6e66',
-};
-
-if (hasChart) {
-Chart.defaults.font.family = "'JetBrains Mono', monospace";
-Chart.defaults.font.size = 11;
-Chart.defaults.color = C.ink;
-Chart.defaults.borderColor = C.grid;
-Chart.defaults.animation.duration = reduceMotion ? 0 : 1100;
-Chart.defaults.plugins.legend.display = false; // séries uniques : le titre nomme la série
-Chart.defaults.plugins.tooltip.backgroundColor = '#16161a';
-Chart.defaults.plugins.tooltip.borderColor = '#26262b';
-Chart.defaults.plugins.tooltip.borderWidth = 1;
-Chart.defaults.plugins.tooltip.titleColor = '#e8e8e2';
-Chart.defaults.plugins.tooltip.bodyColor = '#a8a8a2';
-Chart.defaults.plugins.tooltip.cornerRadius = 0;
-Chart.defaults.plugins.tooltip.padding = 10;
-}
-
-/* Labels directs au bout des barres (évite de deviner sur l'axe) */
-const directLabels = {
-  id: 'directLabels',
-  afterDatasetsDraw(chart, _, opts) {
-    const { ctx } = chart;
-    ctx.save();
-    ctx.font = "700 11px 'JetBrains Mono', monospace";
-    ctx.fillStyle = '#e8e8e2';
-    chart.getDatasetMeta(0).data.forEach((bar, i) => {
-      const raw = chart.data.datasets[0].data[i];
-      const txt = (opts.format || (v => v.toLocaleString('fr-FR')))(raw);
-      if (opts.horizontal) {
-        ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
-        ctx.fillText(txt, bar.x + 8, bar.y);
-      } else {
-        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
-        ctx.fillText(txt, bar.x, bar.y - 6);
-      }
-    });
-    ctx.restore();
-  }
-};
-
-const axisNoGrid = { grid: { display: false }, border: { color: '#26262b' } };
-const axisGrid = { grid: { color: C.grid }, border: { display: false }, ticks: { color: C.inkMute } };
-
-/* Chaque chart est construit à la première apparition à l'écran
-   (déclenché par l'IntersectionObserver ci-dessus). */
-const chartBuilders = {
-
-  /* P1 — volumétrie de la base de démo (barres horizontales) */
-  chartP1() {
-    new Chart(document.getElementById('chartP1'), {
-      type: 'bar',
-      data: {
-        labels: ['Produits', 'Jours d’historique', 'Fournisseurs', 'Entrepôts', 'Tables', 'Tests métier'],
-        datasets: [{
-          data: [500, 90, 25, 6, 6, 10],
-          backgroundColor: [C.s1, C.s2, C.s2, C.s3, C.s3, C.s3],
-          barThickness: 12, borderRadius: 2,
-        }]
-      },
-      options: {
-        indexAxis: 'y', maintainAspectRatio: false,
-        layout: { padding: { right: 46 } },
-        scales: {
-          x: { type: 'logarithmic', display: false }, /* échelle log : ordres de grandeur très différents */
-          y: { ...axisNoGrid, ticks: { color: C.ink } }
-        },
-        plugins: { directLabels: { horizontal: true }, tooltip: { enabled: true } }
-      },
-      plugins: [directLabels]
-    });
-  },
-
-  /* P3 — avant/après en minutes */
-  chartP3() {
-    new Chart(document.getElementById('chartP3'), {
-      type: 'bar',
-      data: {
-        labels: ['Avant (manuel)', 'Après (automatisé)'],
-        datasets: [{
-          data: [240, 15],
-          backgroundColor: [C.s3, C.s1],
-          barThickness: 56, borderRadius: 2,
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        layout: { padding: { top: 24 } },
-        scales: { y: { ...axisGrid, title: { display: true, text: 'minutes', color: C.inkMute } }, x: { ...axisNoGrid, ticks: { color: C.ink } } },
-        plugins: { directLabels: { format: v => v + ' min' } }
-      },
-      plugins: [directLabels]
-    });
-  },
-
-  /* P4 — schémas documentés avant/après */
-  chartP4() {
-    new Chart(document.getElementById('chartP4'), {
-      type: 'bar',
-      data: {
-        labels: ['Doc existante', 'Cartographie réelle'],
-        datasets: [{
-          data: [4, 24],
-          backgroundColor: [C.s3, C.s1],
-          barThickness: 56, borderRadius: 2,
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        layout: { padding: { top: 24 } },
-        scales: { y: { ...axisGrid, title: { display: true, text: 'schémas', color: C.inkMute } }, x: { ...axisNoGrid, ticks: { color: C.ink } } },
-        plugins: { directLabels: { format: v => v + ' schémas' } }
-      },
-      plugins: [directLabels]
-    });
-  },
-
-  /* P5 — attendu vs généré (barres horizontales, écart énorme → log) */
-  chartP5() {
-    new Chart(document.getElementById('chartP5'), {
-      type: 'bar',
-      data: {
-        labels: ['Volume attendu', 'Volume généré'],
-        datasets: [{
-          data: [10244, 54],
-          backgroundColor: [C.s2, C.s1],
-          barThickness: 26, borderRadius: 2,
-        }]
-      },
-      options: {
-        indexAxis: 'y', maintainAspectRatio: false,
-        layout: { padding: { right: 70 } },
-        scales: {
-          x: { type: 'logarithmic', display: false }, /* 54 vs 10 244 : le linéaire écraserait la barre */
-          y: { ...axisNoGrid, ticks: { color: C.ink } }
-        },
-        plugins: { directLabels: { horizontal: true, format: v => v.toLocaleString('fr-FR') + ' colis' } }
-      },
-      plugins: [directLabels]
-    });
-  },
-};
-
-/* ============================================================
-   3. Révélation au scroll (IntersectionObserver)
-   Déclarée en dernier : elle déclenche compteurs, barres et
-   construction paresseuse des charts définis ci-dessus.
-   ============================================================ */
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
@@ -723,14 +958,9 @@ const io = new IntersectionObserver((entries) => {
     e.target.querySelectorAll('.s-fill, .fill').forEach(el => {
       el.style.width = el.dataset.width + '%';
     });
-    const canvas = e.target.querySelector('canvas');
-    if (canvas && hasChart && chartBuilders[canvas.id]) {
-      chartBuilders[canvas.id]();
-      delete chartBuilders[canvas.id]; // ne construit chaque chart qu'une fois
-    }
     io.unobserve(e.target);
   });
-}, { threshold: 0.2 });
+}, { threshold: 0.15 });
 
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
